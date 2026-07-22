@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Stress-test a startup idea through seven gates until it is sellable with no product.">
+<title>Idea Forge Pro — Sell Before Build</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<style>
+  html{background:#e8edf4}
+  @media (prefers-color-scheme:dark){html{background:#0a1424}}
+  :root{
+    --bg:#e8edf4; --grid:rgba(30,64,110,.06);
+    --panel:#f6f8fc; --panel-2:#eef2f8; --panel-in:#ffffff;
+    --ink:#0f2138; --ink-soft:#4a5a72; --ink-faint:#7d8ba0;
+    --line:#cdd8e8; --line-strong:#b3c2d8;
+    --accent:#1f6feb; --accent-soft:#e2ecfd; --accent-ink:#ffffff;
+    --ai:#7c46d4; --ai-soft:#efe6fb;
+    --pass:#1f9d55; --pass-soft:#dcf3e6;
+    --kill:#d4293e; --kill-soft:#fbe1e4;
+    --hold:#9a6b12; --hold-soft:#f6ecd6;
+    --shadow:0 1px 2px rgba(16,33,56,.08),0 8px 24px rgba(16,33,56,.06);
+    --mono:"Cascadia Code","Cascadia Mono",Consolas,"SF Mono",ui-monospace,monospace;
+    --ui:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    --r:14px; --r-s:9px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0a1424; --grid:rgba(120,170,240,.055);
+      --panel:#0f1e33; --panel-2:#122540; --panel-in:#0b1a2f;
+      --ink:#e6eefb; --ink-soft:#a4b6d2; --ink-faint:#6f83a3;
+      --line:#20334f; --line-strong:#2c456a;
+      --accent:#4c9aff; --accent-soft:#16294a; --accent-ink:#03152e;
+      --ai:#b184f0; --ai-soft:#231a3a;
+      --pass:#3ecf78; --pass-soft:#122c22;
+      --kill:#ff5d6c; --kill-soft:#33141a;
+      --hold:#e6b455; --hold-soft:#2e2411;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#e8edf4; --grid:rgba(30,64,110,.06);
+    --panel:#f6f8fc; --panel-2:#eef2f8; --panel-in:#ffffff;
+    --ink:#0f2138; --ink-soft:#4a5a72; --ink-faint:#7d8ba0;
+    --line:#cdd8e8; --line-strong:#b3c2d8;
+    --accent:#1f6feb; --accent-soft:#e2ecfd; --accent-ink:#ffffff;
+    --ai:#7c46d4; --ai-soft:#efe6fb;
+    --pass:#1f9d55; --pass-soft:#dcf3e6; --kill:#d4293e; --kill-soft:#fbe1e4;
+    --hold:#9a6b12; --hold-soft:#f6ecd6;
+    --shadow:0 1px 2px rgba(16,33,56,.08),0 8px 24px rgba(16,33,56,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a1424; --grid:rgba(120,170,240,.055);
+    --panel:#0f1e33; --panel-2:#122540; --panel-in:#0b1a2f;
+    --ink:#e6eefb; --ink-soft:#a4b6d2; --ink-faint:#6f83a3;
+    --line:#20334f; --line-strong:#2c456a;
+    --accent:#4c9aff; --accent-soft:#16294a; --accent-ink:#03152e;
+    --ai:#b184f0; --ai-soft:#231a3a;
+    --pass:#3ecf78; --pass-soft:#122c22; --kill:#ff5d6c; --kill-soft:#33141a;
+    --hold:#e6b455; --hold-soft:#2e2411;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0}
+  .app{min-height:100vh;color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.55;
+    background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/26px 26px,
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/26px 26px,var(--bg);
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 22px 80px}
+  @media (max-width:640px){.wrap{padding:18px 14px 64px}}
+
+  header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .brand .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 6px}
+  .brand h1{font-size:clamp(26px,4vw,38px);line-height:1.02;margin:0;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+  .brand .sub{color:var(--ink-soft);margin:8px 0 0;max-width:56ch;font-size:14px}
+  .toolbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .themebtn{font-family:var(--mono);font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);
+    border-radius:100px;padding:8px 13px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;white-space:nowrap}
+  .themebtn:hover{border-color:var(--line-strong);color:var(--ink)}
+
+  .rail{display:flex;gap:6px;margin:0 0 22px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+  .station{flex:1 0 auto;min-width:104px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-s);
+    padding:9px 11px;cursor:pointer;position:relative}
+  .station:disabled{cursor:not-allowed;opacity:.55}
+  .station .n{font-family:var(--mono);font-size:11px;color:var(--ink-faint);display:flex;align-items:center;gap:6px}
+  .station .nm{font-size:12.5px;font-weight:600;margin-top:3px;line-height:1.2}
+  .station .dot{width:8px;height:8px;border-radius:50%;background:var(--line-strong)}
+  .station.active{border-color:var(--accent);background:var(--accent-soft)}
+  .station.active .nm{color:var(--accent)}
+  .station.passed .dot{background:var(--pass)}
+  .station.passed{border-color:color-mix(in srgb,var(--pass) 40%,var(--line))}
+
+  .grid{display:grid;grid-template-columns:1.55fr 1fr;gap:20px;align-items:start}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .card .head{padding:18px 22px 0}
+  .card .body{padding:16px 22px 22px;display:flex;flex-direction:column;gap:16px}
+  .step-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+  .step-title{font-size:22px;font-weight:750;letter-spacing:-.01em;margin:6px 0 0;text-wrap:balance}
+  .coach{color:var(--ink-soft);font-size:14px;border-left:2px solid var(--accent);padding:2px 0 2px 14px;background:linear-gradient(90deg,var(--accent-soft),transparent 70%)}
+  .coach b{color:var(--ink)} .coach ul{margin:8px 0 0;padding-left:18px} .coach li{margin:3px 0}
+
+  label.field{display:flex;flex-direction:column;gap:6px}
+  label.field .lab{font-size:12.5px;font-weight:650;color:var(--ink)}
+  label.field .lab .opt{font-weight:500;color:var(--ink-faint);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+  textarea,input[type=text]{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--panel-in);
+    border:1px solid var(--line-strong);border-radius:var(--r-s);padding:11px 13px;resize:vertical;line-height:1.5}
+  select{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--panel-in);border:1px solid var(--line-strong);border-radius:var(--r-s);padding:11px 13px}
+  .modal a{color:var(--accent)}
+  textarea{min-height:74px} textarea::placeholder,input::placeholder{color:var(--ink-faint)}
+  textarea:focus,input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .hint{font-size:12.5px;display:none;gap:7px;align-items:flex-start;padding:8px 11px;border-radius:var(--r-s);margin-top:-4px}
+  .hint.show{display:flex} .hint.warn{background:var(--hold-soft);color:var(--hold)} .hint .ic{font-family:var(--mono);font-weight:700}
+
+  .gate{border:1px dashed var(--line-strong);border-radius:var(--r-s);padding:12px 14px;background:var(--panel-2);display:flex;gap:11px;align-items:flex-start}
+  .gate input{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex:none}
+  .gate .gt{font-size:13px}
+  .gate .gt .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px}
+
+  .aibtn{align-self:flex-start;font-family:var(--ui);font-size:12.5px;font-weight:600;color:var(--ai);background:var(--ai-soft);
+    border:1px solid color-mix(in srgb,var(--ai) 30%,transparent);border-radius:100px;padding:6px 13px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+  .aibtn:hover{filter:brightness(1.04)}
+
+  .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-top:4px}
+  button.btn{font-family:var(--ui);font-size:14px;font-weight:650;border-radius:var(--r-s);padding:11px 18px;cursor:pointer;border:1px solid transparent}
+  button.btn:disabled{cursor:not-allowed;opacity:.45}
+  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .btn.primary:not(:disabled):hover{filter:brightness(1.06)}
+  .btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--line-strong)}
+  .btn.ghost:hover{color:var(--ink);border-color:var(--ink-faint)}
+  .btn.kill{background:transparent;color:var(--kill);border-color:color-mix(in srgb,var(--kill) 45%,transparent);margin-left:auto}
+  .btn.kill:hover{background:var(--kill-soft)}
+  @media (max-width:520px){.btn.kill{margin-left:0}}
+
+  .kit{position:sticky;top:18px}
+  .kit .khead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .kit .khead h2{font-size:15px;margin:0;font-weight:750;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .kit .khead .prog{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}
+  .kit .kbody{padding:6px 20px 18px;max-height:min(60vh,560px);overflow:auto}
+  .krow{padding:12px 0;border-bottom:1px dotted var(--line)} .krow:last-child{border-bottom:none}
+  .krow .kk{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:flex;align-items:center;gap:7px}
+  .krow .kv{font-size:13.5px;color:var(--ink);margin-top:5px;white-space:pre-wrap;word-break:break-word}
+  .krow .kv.empty{color:var(--ink-faint);font-style:italic} .krow .price{font-family:var(--mono);font-weight:700;color:var(--accent)}
+  .tag{font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase}
+  .tag.p{background:var(--pass-soft);color:var(--pass)} .tag.h{background:var(--hold-soft);color:var(--hold)}
+  .kfoot{padding:14px 20px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .kfoot .btn{padding:9px 13px;font-size:13px;width:100%}
+  .kfoot .wide{grid-column:1 / -1}
+
+  .veil{position:fixed;inset:0;background:rgba(6,14,26,.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+  .veil.show{display:flex}
+  .modal{max-width:520px;width:100%;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;max-height:88vh;overflow:auto}
+  .modal h3{margin:0 0 6px;font-size:19px} .modal .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 12px}
+  .modal p{color:var(--ink-soft);font-size:14px;margin:0 0 14px} .modal .mact{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+  .modal.kill .k{color:var(--kill)} .modal.ai .k{color:var(--ai)}
+  #promptText{font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--ink);background:var(--panel-in);border:1px solid var(--line-strong);
+    border-radius:var(--r-s);padding:13px;white-space:pre-wrap;max-height:44vh;overflow:auto;margin:0}
+  #importText{min-height:180px;font-family:var(--mono);font-size:12.5px}
+
+  .done-banner{display:none;align-items:center;gap:12px;background:var(--pass-soft);border:1px solid color-mix(in srgb,var(--pass) 40%,var(--line));
+    border-radius:var(--r-s);padding:13px 16px;color:var(--pass);font-weight:600;font-size:14px;margin-bottom:16px}
+  .done-banner.show{display:flex}
+
+  @media (prefers-reduced-motion:no-preference){
+    .flash{animation:flash .5s ease} @keyframes flash{0%{background:var(--pass-soft)}100%{}}
+  }
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---- Print report ---- */
+  #printReport{display:none}
+  @media print{
+    @page{margin:18mm}
+    .app{background:#fff !important}
+    body *{visibility:hidden}
+    #printReport,#printReport *{visibility:visible}
+    #printReport{display:block;position:absolute;inset:0;width:100%;color:#111;font-family:Georgia,"Times New Roman",serif}
+    #printReport h1{font-size:26px;margin:0 0 2px;font-family:var(--ui)}
+    #printReport .pr-meta{font-family:var(--ui);color:#555;font-size:12px;margin-bottom:20px;border-bottom:2px solid #111;padding-bottom:10px}
+    #printReport section{break-inside:avoid;margin:0 0 16px}
+    #printReport h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--ui);color:#111;border-bottom:1px solid #bbb;padding-bottom:4px;margin:0 0 8px}
+    #printReport .pr-k{font-family:var(--ui);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-top:9px}
+    #printReport .pr-v{font-size:14px;margin:2px 0 0;white-space:pre-wrap}
+    #printReport ol{margin:4px 0 0 18px} #printReport li{font-size:13px;margin:2px 0}
+  }
+</style>
+
+<div class="app">
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <p class="eyebrow">Sell before build · pre-product validation</p>
+      <h1>Idea Forge Pro</h1>
+      <p class="sub">Design the <b>sale</b> before the product. An idea graduates only when it's sellable tomorrow with no code — a specific buyer, a real offer, and a test that pulls a dollar or a signature before a line is written.</p>
+    </div>
+    <div class="toolbtns">
+      <button class="themebtn" id="settingsTop" type="button">⚙ API key</button>
+      <button class="themebtn" id="importTop" type="button">⬇ Import kit</button>
+      <button class="themebtn" id="theme" type="button" aria-label="Toggle colour theme"><span id="themeIc">◐</span> <span id="themeTx">Theme</span></button>
+    </div>
+  </header>
+
+  <nav class="rail" id="rail" aria-label="Validation gates"></nav>
+
+  <div class="done-banner" id="doneBanner">✓ All seven gates cleared. This idea is sellable now — export or print the kit and go get the first dollar.</div>
+
+  <div class="grid">
+    <main><section class="card" id="stepCard" aria-live="polite"></section></main>
+    <aside>
+      <section class="card kit">
+        <div class="khead"><h2>📐 Sell-Kit</h2><span class="prog" id="kitProg">0 / 7 gates</span></div>
+        <div class="kbody" id="kitBody"></div>
+        <div class="kfoot">
+          <button class="btn primary wide" id="aiForgeBtn" type="button">✦ Forge the whole idea with AI</button>
+          <button class="btn ghost" id="copyBtn" type="button">Copy .md</button>
+          <button class="btn ghost" id="dlBtn" type="button">Download .md</button>
+          <button class="btn ghost" id="printBtn" type="button">Print / PDF</button>
+          <button class="btn ghost" id="importBtn" type="button">Import</button>
+          <button class="btn ghost wide" id="resetBtn" type="button">Reset</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+</div>
+
+<!-- Kill modal -->
+<div class="veil" id="veil">
+  <div class="modal kill" role="dialog" aria-modal="true" aria-labelledby="killTitle">
+    <p class="k">Kill · pressure-tested</p>
+    <h3 id="killTitle">Killed cheap beats built-and-abandoned.</h3>
+    <p>A falsified idea this week saved you months. And when an idea struggles, it's almost always the <b>buyer</b> that was wrong, not the concept. Re-cut who you're selling to before you touch anything else.</p>
+    <div class="mact">
+      <button class="btn primary" id="pivotBtn" type="button">Re-cut the buyer (Gate 1)</button>
+      <button class="btn ghost" id="closeVeil" type="button">Keep going</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI prompt / result modal -->
+<div class="veil" id="promptVeil">
+  <div class="modal ai" role="dialog" aria-modal="true" aria-labelledby="promptTitle">
+    <p class="k">✦ AI forge</p>
+    <h3 id="promptTitle">AI result</h3>
+    <p id="promptSub"></p>
+    <pre id="promptText"></pre>
+    <div class="mact">
+      <button class="btn primary" id="importResultBtn" type="button">Import into gates</button>
+      <button class="btn ghost" id="copyPromptBtn" type="button">Copy</button>
+      <button class="btn ghost" id="closePrompt" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import modal -->
+<div class="veil" id="importVeil">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
+    <p class="k" style="color:var(--accent)">⬇ Import a Sell-Kit</p>
+    <h3 id="importTitle">Paste a kit to load it</h3>
+    <p>Paste a Sell-Kit Markdown export (or an AI-sharpened version) below. It repopulates all seven gates so you can print or keep refining.</p>
+    <textarea id="importText" placeholder="# SELL-KIT: ..."></textarea>
+    <div class="mact">
+      <button class="btn primary" id="doImportBtn" type="button">Load kit</button>
+      <button class="btn ghost" id="closeImport" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings / BYO-API modal -->
+<div class="veil" id="settingsVeil">
+  <div class="modal ai" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <p class="k">✦ Bring your own AI</p>
+    <h3 id="settingsTitle">Connect your API key</h3>
+    <p>The skeptic runs on <b>your</b> model. Your key is stored only in this browser and sent straight to your provider — it never touches our servers. Need one? <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">Get an OpenRouter key</a> — cheap, works in-browser, and reaches DeepSeek, Claude, and GPT.</p>
+    <label class="field"><span class="lab">Provider</span><select id="apiPreset"></select></label>
+    <label class="field"><span class="lab">API base URL</span><input type="text" id="apiBase" placeholder="https://openrouter.ai/api/v1"></label>
+    <label class="field"><span class="lab">Model</span><input type="text" id="apiModel" placeholder="deepseek/deepseek-chat"></label>
+    <label class="field"><span class="lab">API key <span class="opt">stays in your browser</span></span><input type="password" id="apiKey" placeholder="sk-..." autocomplete="off"></label>
+    <div class="mact">
+      <button class="btn primary" id="apiSaveBtn" type="button">Save key</button>
+      <button class="btn ghost" id="apiClearBtn" type="button">Clear</button>
+      <button class="btn ghost" id="closeSettings" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Print report (screen-hidden; shown only when printing) -->
+<div id="printReport"></div>
+
+<script>
+(function(){
+  "use strict";
+  var LS="sbb-blueprint-v1";
+
+  /* ============================================================
+     BYO-API (bring your own key)
+     The skeptic runs on the USER's model. Their key is stored only
+     in this browser (localStorage) and sent straight to their chosen
+     OpenAI-compatible provider — it never touches our servers, so the
+     whole app is pure static (host it anywhere, including Airo).
+     Providers must allow browser calls; OpenRouter is the default.
+     No key set -> the forge falls back to copy-the-prompt mode.
+     ============================================================ */
+  var AI_PRESETS={
+    openrouter:{label:"OpenRouter — recommended, works in-browser",baseUrl:"https://openrouter.ai/api/v1",model:"deepseek/deepseek-chat"},
+    deepseek:{label:"DeepSeek direct (may block browser calls)",baseUrl:"https://api.deepseek.com",model:"deepseek-chat"},
+    openai:{label:"OpenAI",baseUrl:"https://api.openai.com/v1",model:"gpt-4o-mini"},
+    groq:{label:"Groq",baseUrl:"https://api.groq.com/openai/v1",model:"llama-3.3-70b-versatile"},
+    custom:{label:"Custom (any OpenAI-compatible endpoint)",baseUrl:"",model:""}
+  };
+  var AI_SYSTEM="You are a ruthless pre-seed investor and the sharpest skeptic in the room, running a 'sell before build' review. Follow the user's instructions exactly, especially any required output template (a fenced Sell-Kit block). Be rigorous, specific, and numeric; never flattering. When unsure whether a gate is strong, rule it weak.";
+  var LS_API="ifp-api";
+  function getApiConfig(){try{return JSON.parse(localStorage.getItem(LS_API))||{};}catch(e){return {};}}
+  function saveApiConfig(c){try{localStorage.setItem(LS_API,JSON.stringify(c));}catch(e){}}
+
+  var STEPS=[
+    { id:"idea", kind:"intro", eyebrow:"Setup", title:"Name the idea",
+      coach:"Two ways in. <b>Refine</b> a seed you already have, or <b>invent</b> from a signal — a trend, a niche, an audience. Either way you'll take <b>one</b> idea deep.",
+      fields:[
+        {k:"name",lab:"Working name",type:"text",ph:"e.g. Payout Reconciler for solo bookkeepers"},
+        {k:"seed",lab:"The seed",opt:"idea, problem, or market",type:"area",ph:"What sparked this? A pain you've felt, a market you're drawn to, or a rough idea."}
+      ]},
+    { id:"buyer", kind:"gate", num:1, eyebrow:"Gate 1 · the linchpin", title:"The painfully specific buyer",
+      coach:"Everything downstream inherits from this. Write <b>one sentence</b> so specific the right person thinks <i>“that's me”</i> and everyone else correctly thinks <i>“not me.”</i>"+
+        "<ul><li>Whose problem is this — a real person you could email?</li><li>What <b>moment</b> does the pain strike? A trigger beats a demographic.</li><li>What are they doing <b>right now</b> instead?</li></ul>",
+      fields:[{k:"buyer",lab:"Buyer (one sentence)",type:"area",ph:"[role] at [stage/context] who [recurring painful moment] and currently [inadequate workaround].",heur:"category"}],
+      gate:"A specific, named person would read this and think “that's me.” It is not a category (“businesses”, “developers”, “users”)." },
+    { id:"problem", kind:"gate", num:2, eyebrow:"Gate 2", title:"The problem, in their words",
+      coach:"State it the way the <b>buyer</b> would say it — not the way you (the seller) frame it. No urgency means no sale, however real the pain.",
+      fields:[
+        {k:"problem",lab:"Problem — the buyer's own words",type:"area",ph:"“I pay someone $300/mo to do something a robot should do, and I still panic in April.”"},
+        {k:"whyNow",lab:"Why now — the trigger",type:"text",ph:"Tax season · a failed workaround · a new hire · a deadline"}
+      ],
+      gate:"This is the buyer's language, and there's a concrete reason to act now." },
+    { id:"offer", kind:"gate", num:3, eyebrow:"Gate 3", title:"The offer & the price",
+      coach:"Design the <b>sale</b>, not the product. Lead with the <b>outcome</b> — the after-state they're buying — and price it to sell itself.",
+      fields:[
+        {k:"offer",lab:"Offer (outcome-led)",type:"area",ph:"Cut payout reconciliation from hours to minutes — you stay in control and approve every entry."},
+        {k:"price",lab:"Price",opt:"a specific number",type:"text",ph:"$49/mo · $2k pilot · $500 deposit"}
+      ],
+      gate:"A concrete offer paired with a specific price." },
+    { id:"artifact", kind:"gate", num:4, eyebrow:"Gate 4", title:"The value artifact",
+      coach:"Lead with a resource, <b>never a calendar link</b>. Often the strongest is a <b>sample of the product's own output</b>, produced by hand, proving the value before the machine exists.",
+      fields:[{k:"artifact",lab:"The artifact you lead with",type:"area",ph:"A done-for-them sample: they send one messy export, you return a clean result by hand."}],
+      gate:"A named artifact I could actually produce this week." },
+    { id:"test", kind:"gate", num:5, eyebrow:"Gate 5 · the whole point", title:"The pre-build sell test",
+      coach:"Extract <b>real money or a firm signed commitment before anything is built</b>. “They said they'd use it” is not a pass. Set the pass line <b>and</b> the kill line in advance.",
+      fields:[
+        {k:"testAsk",lab:"The exact ask",type:"area",ph:"Offer 10 buyers a founding deal — locked price; pay a deposit now to be first."},
+        {k:"passLine",lab:"PASS if…",type:"text",ph:"3 of 10 pay the deposit"},
+        {k:"killLine",lab:"KILL if…",type:"text",ph:"0–1 pay — the pain isn't budgeted; stop or pivot"},
+        {k:"byWhen",lab:"By when",opt:"a date",type:"text",ph:"in 2 weeks"}
+      ],
+      gate:"The test extracts money or a signature, with a dated pass line AND a kill line." },
+    { id:"channel", kind:"gate", num:6, eyebrow:"Gate 6", title:"The channel & the intent signal",
+      coach:"Pick <b>one</b> channel and go deep. Reach only people <b>showing intent</b>: engaging competitors, changing roles, raising, or posting the exact problem.",
+      fields:[
+        {k:"channel",lab:"The one channel",type:"text",ph:"Outbound · a specific subreddit · short-form video"},
+        {k:"intentSignal",lab:"Intent signal to target",type:"text",ph:"Anyone posting about the exact problem"}
+      ],
+      gate:"One channel, plus an intent signal I can actually detect." },
+    { id:"spec", kind:"gate", num:7, eyebrow:"Gate 7", title:"The builder handoff",
+      coach:"You invent and sell; someone else builds — but <b>only after</b> the test passes. Give the outcome as acceptance criteria, the one or two things it must nail, and what's out of scope.",
+      fields:[
+        {k:"acceptance",lab:"Acceptance criteria (the outcome, testably)",type:"area",ph:"Ingest X + Y; output a result the buyer approves."},
+        {k:"mustNail",lab:"The 1–2 things it must nail",type:"area",ph:"The one thing the whole sale depends on."},
+        {k:"outOfScope",lab:"Explicitly out of scope for v1",type:"area",ph:"Everything that doesn't serve the core outcome."}
+      ],
+      gate:"Acceptance criteria describe the outcome, testably." },
+    { id:"kit", kind:"final", eyebrow:"Cleared", title:"Your Sell-Kit is ready",
+      coach:"Every gate is green — this idea is sellable now, with no product. Forge it once more with AI, export or print it, then run the test you designed and let the pass/kill lines decide." }
+  ];
+
+  var CATEGORY=["businesses","business","companies","company","developers","users","people","teams","team","everyone","anyone","startups","startup","smbs","smb","organizations","organisations","customers","professionals","marketers","consumers","clients","brands"];
+
+  var state=load();
+  function blank(){return {current:0,data:{},passed:{},killedRounds:0};}
+  function load(){try{var s=JSON.parse(localStorage.getItem(LS));if(s&&s.data)return s;}catch(e){}return blank();}
+  function save(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
+  function stepById(id){for(var i=0;i<STEPS.length;i++)if(STEPS[i].id===id)return STEPS[i];return null;}
+  function indexById(id){for(var i=0;i<STEPS.length;i++)if(STEPS[i].id===id)return i;return 0;}
+
+  var $=function(s,r){return (r||document).querySelector(s);};
+  function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;}
+  function esc(s){return (s||"").replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function v(k){return (state.data[k]||"").trim();}
+
+  /* Theme */
+  var themeBtn=$("#theme");
+  function curTheme(){var r=document.documentElement.getAttribute("data-theme");if(r)return r;return matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";}
+  function paintTheme(){var t=curTheme();$("#themeIc").textContent=t==="dark"?"☾":"☀";$("#themeTx").textContent=t==="dark"?"Dark":"Light";}
+  themeBtn.addEventListener("click",function(){var next=curTheme()==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",next);paintTheme();});
+  matchMedia("(prefers-color-scheme:dark)").addEventListener("change",paintTheme); paintTheme();
+
+  /* Gate logic */
+  function gateFilled(step){if(step.kind!=="gate")return true;for(var i=0;i<step.fields.length;i++){var f=step.fields[i];if(f.opt)continue;if(!v(f.k))return false;}return true;}
+  function isPassed(id){return !!state.passed[id];}
+  function reachable(idx){for(var i=0;i<idx;i++){var s=STEPS[i];if(s.kind==="gate"&&!isPassed(s.id))return false;}return true;}
+  function passedCount(){var n=0;STEPS.forEach(function(s){if(s.kind==="gate"&&isPassed(s.id))n++;});return n;}
+  function allPassed(){return STEPS.every(function(s){return s.kind!=="gate"||isPassed(s.id);});}
+
+  /* Rail */
+  var SHORT={buyer:"Buyer",problem:"Problem",offer:"Offer & price",artifact:"Value artifact",test:"Sell test",channel:"Channel",spec:"Builder spec"};
+  function renderRail(){
+    var rail=$("#rail");rail.innerHTML="";
+    STEPS.forEach(function(s,idx){
+      if(s.kind==="intro"||s.kind==="final")return;
+      var b=el("button","station");b.type="button";
+      var passed=isPassed(s.id),active=idx===state.current,rc=reachable(idx);
+      if(passed)b.classList.add("passed"); if(active)b.classList.add("active");
+      if(!rc&&!passed)b.disabled=true;
+      b.innerHTML='<span class="n"><span class="dot"></span>Gate '+s.num+'</span><span class="nm">'+SHORT[s.id]+'</span>';
+      b.addEventListener("click",function(){if(rc||passed){state.current=idx;save();render();}});
+      rail.appendChild(b);
+    });
+  }
+
+  /* Step card */
+  function render(){
+    renderRail();renderKit();
+    var step=STEPS[state.current];
+    var card=$("#stepCard");card.innerHTML="";
+    var head=el("div","head");
+    head.appendChild(el("div","step-eyebrow",esc(step.eyebrow)));
+    head.appendChild(el("h2","step-title",step.title));
+    card.appendChild(head);
+    var body=el("div","body");
+    body.appendChild(el("div","coach",step.coach));
+
+    if(step.fields){
+      step.fields.forEach(function(f){
+        var wrap=el("label","field");
+        wrap.innerHTML='<span class="lab">'+esc(f.lab)+(f.opt?' <span class="opt">'+esc(f.opt)+'</span>':'')+'</span>';
+        var inp=f.type==="area"?el("textarea"):(function(){var i=el("input");i.type="text";return i;})();
+        inp.value=state.data[f.k]||"";inp.placeholder=f.ph||"";inp.setAttribute("aria-label",f.lab);
+        var hint=el("div","hint");hint.innerHTML='<span class="ic">!</span><span class="ht"></span>';
+        inp.addEventListener("input",function(){state.data[f.k]=inp.value;save();if(f.heur)runHeur(f,inp,hint);updateActions(step);renderKit();});
+        wrap.appendChild(inp);wrap.appendChild(hint);body.appendChild(wrap);
+        if(f.heur)runHeur(f,inp,hint);
+      });
+    }
+
+    if(step.kind==="gate"){
+      var g=el("div","gate");
+      var cb=el("input");cb.type="checkbox";cb.id="gateChk";
+      g.appendChild(cb);
+      g.appendChild(el("div","gt",'<span class="k">Graduation gate</span>'+esc(step.gate)));
+      body.appendChild(g);
+      cb.addEventListener("change",function(){updateActions(step);});
+      var ai=el("button","aibtn","✦ Ask AI to sharpen this gate");ai.type="button";
+      ai.addEventListener("click",function(){requestAiAssist(step);});
+      body.appendChild(ai);
+    }
+
+    $("#doneBanner").classList.toggle("show",step.kind==="final"||allPassed());
+
+    var act=el("div","actions");
+    if(state.current>0){var back=el("button","btn ghost","← Back");back.type="button";back.addEventListener("click",function(){state.current--;save();render();});act.appendChild(back);}
+    if(step.kind==="intro"){
+      var start=el("button","btn primary","Start · Gate 1 →");start.type="button";
+      start.addEventListener("click",function(){state.current=1;save();render();scrollTop();});act.appendChild(start);
+    }else if(step.kind==="gate"){
+      var pass=el("button","btn primary");pass.type="button";pass.id="passBtn";
+      pass.addEventListener("click",function(){
+        state.passed[step.id]=true;save();
+        state.current=Math.min(state.current+1,STEPS.length-1);save();render();scrollTop();
+        var c=$("#stepCard");if(c&&!matchMedia("(prefers-reduced-motion:reduce)").matches){c.classList.add("flash");setTimeout(function(){c.classList.remove("flash");},500);}
+      });
+      act.appendChild(pass);
+      var kill=el("button","btn kill","⨯ Kill / pivot");kill.type="button";kill.addEventListener("click",function(){$("#veil").classList.add("show");});act.appendChild(kill);
+    }else if(step.kind==="final"){
+      var forge=el("button","btn primary","✦ Forge with AI");forge.type="button";forge.addEventListener("click",function(){requestAiAssist("all");});act.appendChild(forge);
+      var pr=el("button","btn ghost","Print / PDF");pr.type="button";pr.addEventListener("click",doPrint);act.appendChild(pr);
+      var again=el("button","btn ghost","New idea");again.type="button";again.addEventListener("click",doReset);act.appendChild(again);
+    }
+    body.appendChild(act);
+    card.appendChild(body);
+    updateActions(step);
+  }
+
+  function updateActions(step){
+    if(step.kind!=="gate")return;
+    var pass=$("#passBtn");if(!pass)return;
+    var chk=$("#gateChk");
+    if(isPassed(step.id)){pass.disabled=false;pass.textContent="Next →";}
+    else{pass.disabled=!(gateFilled(step)&&(chk?chk.checked:false));pass.textContent="Clear gate "+step.num+" →";}
+  }
+
+  function runHeur(f,inp,hint){
+    var ht=$(".ht",hint),val=(inp.value||"").trim(),msg="";
+    if(f.heur==="category"&&val.length){
+      var low=val.toLowerCase();
+      var hit=CATEGORY.filter(function(w){return new RegExp("\\b"+w+"\\b").test(low);});
+      if(val.length<40)msg="Too short to be specific — name the person, the moment, and the workaround.";
+      else if(hit.length&&!/\bwho\b/.test(low))msg="“"+hit[0]+"” reads as a category. Name the person and the moment they feel the pain.";
+    }
+    if(msg){ht.textContent=msg;hint.classList.add("show","warn");}else{hint.classList.remove("show","warn");}
+  }
+
+  /* Sell-kit panel */
+  var KIT=[
+    {k:"Buyer",g:"buyer",f:["buyer"]},
+    {k:"Problem · why now",g:"problem",f:["problem","whyNow"],sep:" — "},
+    {k:"Offer",g:"offer",f:["offer"]},
+    {k:"Price",g:"offer",f:["price"],price:true},
+    {k:"Value artifact",g:"artifact",f:["artifact"]},
+    {k:"Pre-build test",g:"test",f:["testAsk"]},
+    {k:"Pass / Kill",g:"test",f:["passLine","killLine"],passkill:true},
+    {k:"Channel · intent",g:"channel",f:["channel","intentSignal"],sep:" ← "},
+    {k:"Builder spec",g:"spec",f:["acceptance"]}
+  ];
+  function renderKit(){
+    var b=$("#kitBody");b.innerHTML="";
+    $("#kitProg").textContent=passedCount()+" / 7 gates";
+    KIT.forEach(function(row){
+      var vals=row.f.map(function(k){return v(k);}),has=vals.some(Boolean),passed=isPassed(row.g);
+      var r=el("div","krow");
+      var tag=passed?'<span class="tag p">passed</span>':(has?'<span class="tag h">draft</span>':'');
+      r.appendChild(el("div","kk",esc(row.k)+" "+tag));
+      var vv;
+      if(!has)vv=el("div","kv empty","—");
+      else if(row.price){vv=el("div","kv");vv.innerHTML='<span class="price">'+esc(vals[0])+'</span>';}
+      else if(row.passkill){vv=el("div","kv");vv.innerHTML='<b>PASS</b> '+esc(vals[0]||"…")+'\n<b>KILL</b> '+esc(vals[1]||"…");}
+      else vv=el("div","kv",esc(vals.filter(Boolean).join(row.sep||" · ")));
+      r.appendChild(vv);b.appendChild(r);
+    });
+  }
+
+  /* Markdown build */
+  function md_v(k){return v(k)||"…";}
+  function buildMD(){
+    var d=state.data,name=d.name||"Untitled idea";
+    return "# SELL-KIT: "+name+"\n\n"+
+      (v("seed")?"> Seed: "+v("seed")+"\n\n":"")+
+      "## Deal memo (one page)\n"+
+      "- **Buyer (one sentence):** "+md_v("buyer")+"\n"+
+      "- **Problem (their words):** "+md_v("problem")+"\n"+
+      "- **Why now:** "+md_v("whyNow")+"\n"+
+      "- **Offer + outcome:** "+md_v("offer")+"\n"+
+      "- **Price:** "+md_v("price")+"\n"+
+      "- **Channel + intent signal:** "+md_v("channel")+" ← "+md_v("intentSignal")+"\n"+
+      "- **Pre-build test:** "+md_v("testAsk")+" → PASS if "+md_v("passLine")+" / KILL if "+md_v("killLine")+" (by "+md_v("byWhen")+")\n\n"+
+      "## Sell deck (6 slides)\n"+
+      "1. The buyer + the painful moment — "+md_v("buyer")+"\n"+
+      "2. The problem (their words) + what it costs — "+md_v("problem")+"\n"+
+      "3. The outcome they're buying — "+md_v("offer")+"\n"+
+      "4. How it works (one diagram's worth; kept thin — you're selling the outcome)\n"+
+      "5. The offer + price — "+md_v("price")+"\n"+
+      "6. The ask — "+md_v("testAsk")+"\n\n"+
+      "## Value artifact\n"+md_v("artifact")+"\n\n"+
+      "## Validation plan\n"+
+      "- The ask: "+md_v("testAsk")+"\n- By: "+md_v("byWhen")+"\n"+
+      "- **PASS if** "+md_v("passLine")+" → build.\n"+
+      "- **KILL if** "+md_v("killLine")+" → pivot the BUYER first (usually the buyer sentence was wrong, not the idea).\n\n"+
+      "## Builder handoff spec\n"+
+      "- **Acceptance criteria:** "+md_v("acceptance")+"\n"+
+      "- **Must nail:** "+md_v("mustNail")+"\n"+
+      "- **Out of scope (v1):** "+md_v("outOfScope")+"\n";
+  }
+
+  /* Export: copy + download */
+  function doCopy(){writeClip(buildMD(),"Sell-Kit copied");}
+  function writeClip(text,okMsg){
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(function(){toast(okMsg);},function(){fallbackCopy(text,okMsg);});
+    else fallbackCopy(text,okMsg);
+  }
+  function fallbackCopy(text,okMsg){var t=el("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();try{document.execCommand("copy");toast(okMsg);}catch(e){toast("Copy failed — select manually");}document.body.removeChild(t);}
+  function safeName(){return ((state.data.name||"sell-kit").replace(/[^a-z0-9]+/gi,"-").replace(/^-+|-+$/g,"").toLowerCase())||"sell-kit";}
+  function doDownload(){
+    var md=buildMD(),blob=new Blob([md],{type:"text/markdown"}),url=URL.createObjectURL(blob);
+    var a=el("a");a.href=url;a.download=safeName()+".md";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);toast("Downloaded");
+  }
+  function doReset(){if(!confirm("Clear this idea and start fresh? This can't be undone."))return;state=blank();save();render();}
+
+  /* Print */
+  function doPrint(){
+    var d=state.data,name=d.name||"Untitled idea";
+    function row(label,val){return '<div class="pr-k">'+esc(label)+'</div><p class="pr-v">'+esc(val||"—")+'</p>';}
+    var html='<h1>'+esc(name)+'</h1>'+
+      '<div class="pr-meta">Sell-Kit · sell-before-build validation'+(v("seed")?' · '+esc(v("seed").split("\n")[0]).slice(0,120):'')+'</div>'+
+      '<section><h2>Deal memo</h2>'+
+        row("Buyer (one sentence)",v("buyer"))+row("Problem — their words",v("problem"))+row("Why now",v("whyNow"))+
+        row("Offer + outcome",v("offer"))+row("Price",v("price"))+
+        row("Channel + intent",[v("channel"),v("intentSignal")].filter(Boolean).join("  ←  "))+
+        row("Pre-build test",v("testAsk"))+
+        row("Pass / Kill / By","PASS if "+(v("passLine")||"…")+"   ·   KILL if "+(v("killLine")||"…")+"   ·   by "+(v("byWhen")||"…"))+
+      '</section>'+
+      '<section><h2>Sell deck — 6 slides</h2><ol>'+
+        '<li>The buyer + the painful moment — '+esc(v("buyer")||"—")+'</li>'+
+        '<li>The problem in their words — '+esc(v("problem")||"—")+'</li>'+
+        '<li>The outcome they buy — '+esc(v("offer")||"—")+'</li>'+
+        '<li>How it works (kept thin — sell the outcome)</li>'+
+        '<li>The offer + price — '+esc(v("price")||"—")+'</li>'+
+        '<li>The ask — '+esc(v("testAsk")||"—")+'</li>'+
+      '</ol></section>'+
+      '<section><h2>Value artifact</h2><p class="pr-v">'+esc(v("artifact")||"—")+'</p></section>'+
+      '<section><h2>Validation plan</h2>'+
+        row("The ask",v("testAsk"))+row("By",v("byWhen"))+row("PASS → build",v("passLine"))+row("KILL → pivot the buyer",v("killLine"))+
+      '</section>'+
+      '<section><h2>Builder handoff spec</h2>'+
+        row("Acceptance criteria",v("acceptance"))+row("Must nail",v("mustNail"))+row("Out of scope (v1)",v("outOfScope"))+
+      '</section>';
+    $("#printReport").innerHTML=html;
+    window.print();
+  }
+
+  /* AI hook */
+  function fullForgePrompt(){
+    return 'ROLE: You are a ruthless pre-seed investor and the sharpest skeptic in the room, running the "sell before build" forge. Find why this FAILS before the founder spends a dollar — do not be encouraging. Flattery here costs them months; when unsure, rule a gate WEAK so it gets fixed.\n\n'+
+      'DO THIS IN ORDER:\n'+
+      '1) STEELMAN — restate the idea in its strongest, most fundable form (better than pitched). No strawman.\n'+
+      '2) GATE-BY-GATE VERDICT — rule each gate PASS / WEAK / FAIL with reasons and CONCRETE NUMBERS. Apply these tests:\n'+
+      '   - Buyer: a nameable, reachable person with PROVEN willingness-to-pay and a trigger, or a category/psychographic (enthusiasts, people who...)? Where do they gather; what intent signal?\n'+
+      '   - Problem: in the buyer voice (their exact words)? Real pain or just a desire (fine, but then price it as an experience)? Urgency to act NOW?\n'+
+      '   - Offer/price: outcome-led? Price defensible against alternatives INCLUDING free/DIY (why not just use ChatGPT)? Right shape (subscription vs one-time vs credits)?\n'+
+      '   - Value artifact: real value in minutes, shareable, ideally a sample of what the product itself would produce?\n'+
+      '   - Pre-build test: extracts REAL money or a signature (not they-would-love-it)? Funnel math realistic STAGE-BY-STAGE (start%, finish%, buy%), not a fantasy flat rate? Pass AND kill lines set in advance and DIAGNOSTIC (which stage failed)? Instrumented (source, each step, purchase, refund)? Build needed to RUN the test truly minimal (one thing, not the product)?\n'+
+      '   - Channel: exactly ONE, gone deep? Intent signal you can actually detect? Reachable at scale?\n'+
+      '   - Builder spec: acceptance criteria OBSERVABLE and measurable (times, counts, ratings), not "feels authentic"? Minimum scope; explicit out-of-scope?\n'+
+      '3) THE KILL SHOT — the single objection most likely to sink it, stated plainly; does it survive, and how?\n'+
+      '4) COPY CHECK — flag over-claiming ("remarkably accurate", "faithful", "guaranteed") that invites a credibility fight; suggest defensible wording.\n\n'+
+      'IDEA: '+(v("name")||"(unnamed)")+'\n'+
+      (v("seed")?'SEED: '+v("seed")+'\n':'')+'\n'+
+      'GATE 1 — Buyer: '+(v("buyer")||"(blank)")+'\n'+
+      'GATE 2 — Problem / why now: '+(v("problem")||"(blank)")+' / '+(v("whyNow")||"(blank)")+'\n'+
+      'GATE 3 — Offer / price: '+(v("offer")||"(blank)")+' / '+(v("price")||"(blank)")+'\n'+
+      'GATE 4 — Value artifact: '+(v("artifact")||"(blank)")+'\n'+
+      'GATE 5 — Pre-build test: '+(v("testAsk")||"(blank)")+' | PASS '+(v("passLine")||"?")+' | KILL '+(v("killLine")||"?")+' | by '+(v("byWhen")||"?")+'\n'+
+      'GATE 6 — Channel / intent: '+(v("channel")||"(blank)")+' / '+(v("intentSignal")||"(blank)")+'\n'+
+      'GATE 7 — Builder spec: '+(v("acceptance")||"(blank)")+'\n\n'+
+      'After your analysis, output ONLY the reforged kit as a fenced code block in EXACTLY this template, so my tool can re-import it:\n\n'+
+      '```\n'+
+      '# SELL-KIT: '+(v("name")||"Idea")+'\n\n'+
+      '## Deal memo (one page)\n'+
+      '- **Buyer (one sentence):** ...\n'+
+      '- **Problem (their words):** ...\n'+
+      '- **Why now:** ...\n'+
+      '- **Offer + outcome:** ...\n'+
+      '- **Price:** ...\n'+
+      '- **Channel + intent signal:** ... ← ...\n'+
+      '- **Pre-build test:** ... → PASS if ... / KILL if ... (by ...)\n\n'+
+      '## Value artifact\n...\n\n'+
+      '## Builder handoff spec\n'+
+      '- **Acceptance criteria:** ...\n'+
+      '- **Must nail:** ...\n'+
+      '- **Out of scope (v1):** ...\n'+
+      '```';
+  }
+  var GATE_TESTS={
+    buyer:"Is this a nameable, reachable person with PROVEN willingness-to-pay and a trigger, or a category/psychographic (enthusiasts, people who...)? Can you say where they gather and what intent signal marks them?",
+    problem:"Is it in the buyer's exact words, not the seller's? Real pain or merely a desire (fine, but then it must be priced as an experience)? Is there urgency to act now?",
+    offer:"Outcome-led, not feature-led? Price defensible against alternatives INCLUDING free/DIY (why not just use ChatGPT)? Is the price shape right for the buying behavior (subscription vs one-time vs credits)?",
+    artifact:"Does it deliver real value in minutes and make the paid step obvious? Shareable? Is it ideally a sample of what the product itself would produce?",
+    test:"Does it extract REAL money or a signature, not they-would-love-it? Is the funnel math realistic stage-by-stage (start%, finish%, buy%), not a fantasy flat rate? Are pass AND kill lines set in advance and diagnostic (which stage failed)? Is it instrumented (source, each step, purchase, refund)? Is the build needed to RUN the test truly minimal?",
+    channel:"Exactly ONE channel gone deep, not three? An intent signal you can actually detect? Reachable at scale?",
+    spec:"Are acceptance criteria observable and measurable (times, counts, ratings), not feels-authentic? Is the scope the minimum that proves the outcome, with explicit out-of-scope and no building beyond the test?"
+  };
+  function gatePrompt(step){
+    var lines=step.fields.map(function(f){return f.lab+": "+(v(f.k)||"(blank)");}).join("\n");
+    return 'ROLE: You are a ruthless pre-seed skeptic sharpening ONE gate of "'+(v("name")||"this idea")+'" under the "sell before build" method. Find why it is weak before the founder spends money; do not flatter; when unsure rule it WEAK.\n\n'+
+      'GATE: '+step.title+'\n'+
+      'THIS GATE MUST ACHIEVE: '+step.gate+'\n\n'+
+      'CURRENT ANSWER:\n'+lines+'\n\n'+
+      'STRESS-TEST AGAINST: '+(GATE_TESTS[step.id]||"")+'\n\n'+
+      'Then: (1) steelman it; (2) rule PASS / WEAK / FAIL with reasons and concrete numbers; (3) name its single biggest weakness; (4) rewrite it sharper and more specific. If the buyer is a category, the test lacks a real dollar, or the funnel math is fantasy, say so plainly.';
+  }
+  function requestAiAssist(scope){
+    var prompt=(scope==="all")?fullForgePrompt():gatePrompt(scope);
+    var cfg=getApiConfig();
+    if(cfg.key&&cfg.baseUrl&&cfg.model)runAiBackend(prompt,scope,cfg);
+    else{showPrompt(prompt);openSettings();toast("Add your API key in Settings to forge automatically");}
+  }
+  function runAiBackend(prompt,scope,cfg){
+    showResult("","✦ Sharpening — consulting the skeptic…",true,false);
+    fetch(cfg.baseUrl.replace(/\/+$/,"")+"/chat/completions",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+cfg.key},
+      body:JSON.stringify({model:cfg.model,temperature:0.4,messages:[{role:"system",content:AI_SYSTEM},{role:"user",content:prompt}]})
+    })
+      .then(function(r){return r.text().then(function(t){if(!r.ok)throw new Error(t||("HTTP "+r.status));return JSON.parse(t);});})
+      .then(function(res){
+        var text=res&&res.choices&&res.choices[0]&&res.choices[0].message?res.choices[0].message.content:"";
+        if(!text)throw new Error("empty response");
+        showResult(text,scope==="all"?"The forge — full reforge":"Gate sharpened",false,scope==="all");
+      })
+      .catch(function(err){
+        var msg=String(err&&err.message||err);showPrompt(prompt);
+        toast(/Failed to fetch|CORS|NetworkError|Load failed/i.test(msg)?"Provider blocked the browser call — try OpenRouter in Settings":"AI error — copy the prompt into Claude instead");
+      });
+  }
+  // Offline fallback: hand the prompt to the user to run in any Claude/ChatGPT.
+  function showPrompt(text){
+    $("#promptTitle").textContent="Hand this to Claude";
+    $("#promptSub").innerHTML="Copy this into any Claude or ChatGPT chat, then paste the sharpened result back via <b>Import</b>.";
+    $("#promptText").textContent=text;$("#promptVeil").dataset.prompt=text;
+    $("#copyPromptBtn").style.display="";$("#importResultBtn").style.display="none";
+    $("#promptVeil").classList.add("show");
+  }
+  // Live backend result: show it, offer one-click import back into the gates.
+  function showResult(text,title,loading,canImport){
+    $("#promptTitle").textContent=title||"AI result";
+    $("#promptSub").innerHTML=loading?"The skeptic is forging your idea — a few seconds.":"Review it, then import straight into your gates — or copy it.";
+    $("#promptText").textContent=loading?"…":text;
+    $("#promptVeil").dataset.prompt=loading?"":text;
+    $("#copyPromptBtn").style.display=loading?"none":"";
+    $("#importResultBtn").style.display=(!loading&&canImport&&/PASS if|## Deal memo|Buyer \(one sentence\)/i.test(text))?"":"none";
+    $("#promptVeil").classList.add("show");
+  }
+  $("#copyPromptBtn").addEventListener("click",function(){writeClip($("#promptVeil").dataset.prompt||"","Copied");});
+  $("#importResultBtn").addEventListener("click",function(){
+    var txt=$("#promptVeil").dataset.prompt||"";
+    if(importKit(txt)){$("#promptVeil").classList.remove("show");render();scrollTop();toast("Reforged kit imported · "+passedCount()+"/7 gates");}
+    else toast("Couldn't parse the result — copy it and import manually");
+  });
+  $("#closePrompt").addEventListener("click",function(){$("#promptVeil").classList.remove("show");});
+
+  /* Import */
+  function openImport(){$("#importText").value="";$("#importVeil").classList.add("show");setTimeout(function(){$("#importText").focus();},50);}
+  function grab(md,label){
+    var esc=label.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    var re=new RegExp("-\\s*\\*\\*"+esc+"\\*\\*\\s*([\\s\\S]*?)(?=\\n-\\s*\\*\\*|\\n##\\s|$)");
+    var m=md.match(re);return m?m[1].trim():"";
+  }
+  function cleanTxt(s){return (s||"").replace(/```/g,"").replace(/\*\*/g,"").replace(/^\s*#+\s*/gm,"").replace(/^\s*[-–—]\s*$/gm,"").replace(/^\s*>\s?/gm,"").replace(/\n{3,}/g,"\n\n").trim();}
+  function parseTest(t,d){
+    if(!t)return; t=t.trim();
+    // Require "if" or ":" right after PASS/KILL so bare prose words ("not a pass or fail") don't split the test.
+    var pass=t.split(/\bPASS\b\s*(?:if\b|:)\s*/i);
+    d.testAsk=(pass[0]||"").replace(/[→\-\s]+$/,"").trim();
+    if(pass[1]){
+      var kill=pass[1].split(/\bKILL\b\s*(?:if\b|:)\s*/i);
+      d.passLine=(kill[0]||"").replace(/[\/\s]+$/,"").trim();
+      if(kill[1]){
+        var by=kill[1].split(/\(\s*by\b\s*/i);
+        d.killLine=(by[0]||"").replace(/[()\/\s]+$/,"").trim();
+        if(by[1])d.byWhen=by[1].replace(/\)[.\s]*$/,"").replace(/[).\s]+$/,"").trim();
+      }
+    }
+  }
+  /* Format A — the tool's own labelled Sell-Kit export */
+  function parseFormatA(md){
+    var d={};
+    var nm=md.match(/#\s*SELL-KIT:\s*(.+)/);if(nm)d.name=nm[1].trim();
+    var sd=md.match(/>\s*Seed:\s*([\s\S]*?)(?=\n##\s)/);if(sd)d.seed=sd[1].trim();
+    d.buyer=grab(md,"Buyer (one sentence):");
+    d.problem=grab(md,"Problem (their words):");
+    d.whyNow=grab(md,"Why now:");
+    d.offer=grab(md,"Offer + outcome:");
+    d.price=grab(md,"Price:");
+    var ch=grab(md,"Channel + intent signal:");
+    if(ch){var cp=ch.split(/←/);d.channel=(cp[0]||"").replace(/[<\-\s]+$/,"").trim();d.intentSignal=(cp[1]||"").trim();}
+    parseTest(grab(md,"Pre-build test:"),d);
+    var av=md.match(/##\s*Value artifact\s*\n([\s\S]*?)(?=\n##\s|$)/);if(av)d.artifact=av[1].trim();
+    d.acceptance=grab(md,"Acceptance criteria:");
+    d.mustNail=grab(md,"Must nail:");
+    d.outOfScope=grab(md,"Out of scope (v1):");
+    return d;
+  }
+  /* Format B — an AI reforge laid out as "GATE 1 — Buyer", "GATE 2 …" etc. */
+  function parseFormatB(md){
+    var re=/GATE\s*([1-7])\b[^\n]*/gi, marks=[], m;
+    while((m=re.exec(md)))marks.push({n:+m[1],start:m.index,end:re.lastIndex});
+    if(marks.length<3)return null;
+    var blk={};
+    for(var i=0;i<marks.length;i++){var to=(i+1<marks.length)?marks[i+1].start:md.length;blk[marks[i].n]=cleanTxt(md.slice(marks[i].end,to));}
+    var d={};
+    if(blk[1])d.buyer=blk[1];
+    if(blk[2])d.problem=blk[2];
+    if(blk[3]){d.offer=blk[3];var pr=blk[3].match(/\$\s?\d[\d.,]*(?:\s*\/\s*(?:mo|month|yr|year))?/i);if(pr)d.price=pr[0].trim();}
+    if(blk[4])d.artifact=blk[4];
+    if(blk[5])parseTest(blk[5],d);
+    if(blk[6]){var cp=blk[6].split(/←/);d.channel=(cp[0]||blk[6]).trim();if(cp[1])d.intentSignal=cp[1].trim();}
+    if(blk[7])d.acceptance=blk[7];
+    return d;
+  }
+  function mergeData(base,over){var o={};Object.keys(base||{}).forEach(function(k){o[k]=base[k];});Object.keys(over).forEach(function(k){if(over[k])o[k]=over[k];});return o;}
+  function firstUnpassedGate(){for(var i=0;i<STEPS.length;i++){var s=STEPS[i];if(s.kind==="gate"&&!isPassed(s.id))return s.id;}return "kit";}
+  function importKit(md){
+    if(!md||md.trim().length<20)return false;
+    // strip a wrapping code fence if the AI returned one
+    var body=md.replace(/^\s*```[a-z]*\s*/i,"").replace(/```\s*$/,"");
+    var d=parseFormatA(body);
+    if(!(d.buyer||d.offer||d.problem)){var b=parseFormatB(body);if(b)d=mergeData(d,b);}
+    Object.keys(d).forEach(function(k){if(!d[k])delete d[k];});
+    if(!(d.buyer||d.offer||d.problem||d.artifact||d.acceptance))return false;
+    state.data=mergeData(state.data,d);
+    state.passed={};
+    STEPS.forEach(function(s){if(s.kind==="gate"&&gateFilled(s))state.passed[s.id]=true;});
+    state.current=indexById(allPassed()?"kit":firstUnpassedGate());
+    save();return true;
+  }
+  $("#doImportBtn").addEventListener("click",function(){
+    var txt=$("#importText").value;
+    if(importKit(txt)){$("#importVeil").classList.remove("show");render();scrollTop();toast("Kit imported · "+passedCount()+"/7 gates");}
+    else toast("Couldn't read that — is it a Sell-Kit export?");
+  });
+  $("#closeImport").addEventListener("click",function(){$("#importVeil").classList.remove("show");});
+  $("#importBtn").addEventListener("click",openImport);
+  $("#importTop").addEventListener("click",openImport);
+
+  /* Kill modal */
+  $("#pivotBtn").addEventListener("click",function(){state.killedRounds++;state.passed={};state.current=indexById("buyer");save();$("#veil").classList.remove("show");render();scrollTop();toast("Buyer re-cut · round "+(state.killedRounds+1));});
+  $("#closeVeil").addEventListener("click",function(){$("#veil").classList.remove("show");});
+
+  /* Veils: click-out + esc */
+  [["#veil"],["#promptVeil"],["#importVeil"],["#settingsVeil"]].forEach(function(x){
+    var elv=$(x[0]);elv.addEventListener("click",function(e){if(e.target===elv)elv.classList.remove("show");});
+  });
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){["#veil","#promptVeil","#importVeil","#settingsVeil"].forEach(function(s){$(s).classList.remove("show");});}});
+
+  /* Footer */
+  $("#copyBtn").addEventListener("click",doCopy);
+  $("#dlBtn").addEventListener("click",doDownload);
+  $("#printBtn").addEventListener("click",doPrint);
+  $("#resetBtn").addEventListener("click",doReset);
+  $("#aiForgeBtn").addEventListener("click",function(){requestAiAssist("all");});
+
+  /* Settings — BYO-API */
+  function fillPresets(){
+    var sel=$("#apiPreset");sel.innerHTML="";
+    Object.keys(AI_PRESETS).forEach(function(k){var o=el("option");o.value=k;o.textContent=AI_PRESETS[k].label;sel.appendChild(o);});
+    sel.addEventListener("change",function(){var p=AI_PRESETS[sel.value];if(p&&sel.value!=="custom"){$("#apiBase").value=p.baseUrl;$("#apiModel").value=p.model;}});
+  }
+  function openSettings(){
+    var c=getApiConfig();
+    $("#apiPreset").value=c.preset||"openrouter";
+    var p=AI_PRESETS[$("#apiPreset").value]||AI_PRESETS.openrouter;
+    $("#apiBase").value=c.baseUrl||p.baseUrl;$("#apiModel").value=c.model||p.model;$("#apiKey").value=c.key||"";
+    $("#settingsVeil").classList.add("show");
+  }
+  function updateKeyBadge(){$("#settingsTop").textContent=getApiConfig().key?"⚙ API ✓":"⚙ API key";}
+  fillPresets();updateKeyBadge();
+  $("#settingsTop").addEventListener("click",openSettings);
+  $("#closeSettings").addEventListener("click",function(){$("#settingsVeil").classList.remove("show");});
+  $("#apiSaveBtn").addEventListener("click",function(){
+    var c={preset:$("#apiPreset").value,baseUrl:$("#apiBase").value.trim(),model:$("#apiModel").value.trim(),key:$("#apiKey").value.trim()};
+    if(!c.baseUrl||!c.model||!c.key){toast("Fill in base URL, model, and key");return;}
+    saveApiConfig(c);updateKeyBadge();$("#settingsVeil").classList.remove("show");toast("Key saved in this browser — forge away ✦");
+  });
+  $("#apiClearBtn").addEventListener("click",function(){saveApiConfig({});$("#apiKey").value="";updateKeyBadge();toast("Key cleared");});
+
+  function toast(msg){var t=$("#toast");if(!t){t=el("div");t.id="toast";
+    t.style.cssText="position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-family:var(--mono);font-size:12.5px;padding:9px 16px;border-radius:100px;z-index:40;box-shadow:var(--shadow);transition:opacity .2s";document.body.appendChild(t);}
+    t.textContent=msg;t.style.opacity="1";clearTimeout(t._t);t._t=setTimeout(function(){t.style.opacity="0";},1700);}
+  function scrollTop(){if(!matchMedia("(prefers-reduced-motion:reduce)").matches)window.scrollTo({top:0,behavior:"smooth"});else window.scrollTo(0,0);}
+
+  render();
+})();
+</script>
+</body>
+</html>
