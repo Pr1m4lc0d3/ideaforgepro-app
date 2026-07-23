@@ -596,36 +596,70 @@
     return wrap;
   }
 
+  /* ===== Sell-Kit model — ONE canonical answer per rendered value =====
+     Every renderer (markdown, print, AI prompt) derives from here.
+     Do not re-derive a Sell-Kit value anywhere else. */
+  var SLIDE4="How it works — one diagram's worth, kept deliberately thin.";
+  /* AI-authored values often arrive with a trailing separator ("3/5 pay. →").
+     Strip separator glyphs once, here; keep sentence punctuation. */
+  function sk(k){return (v(k)||"").replace(/[\s→←\/|·]+$/,"").trim();}
+  function has(k){return sk(k).length>0;}
+  /* A missing field is OMITTED — never printed as an ellipsis. */
+  function mdLine(lab,k){return has(k)?"- **"+lab+":** "+sk(k)+"\n":"";}
+  /* A multi-line value breaks an inline "- **Label:** value" bullet. */
+  function mdBlock(lab,k){
+    if(!has(k))return "";
+    var t=sk(k);
+    return /\n/.test(t)?"- **"+lab+":**\n\n"+t.replace(/^/gm,"  ")+"\n\n":"- **"+lab+":** "+t+"\n";
+  }
+  function mdTestLine(){
+    if(!has("testAsk")&&!has("passLine")&&!has("killLine"))return "";
+    var s="- **Pre-build test:** "+(has("testAsk")?sk("testAsk"):"—"),pk=[];
+    if(has("passLine"))pk.push("PASS if "+sk("passLine"));
+    if(has("killLine"))pk.push("KILL if "+sk("killLine"));
+    if(pk.length)s+=" → "+pk.join(" / ");
+    if(has("byWhen"))s+=" (by "+sk("byWhen")+")";
+    return s+"\n";
+  }
+  function slide(n,lab,k){return n+". "+lab+" — "+(has(k)?sk(k):"—")+"\n";}
+
   /* Markdown build */
-  function md_v(k){return v(k)||"…";}
   function buildMD(){
-    var d=state.data,name=d.name||"Untitled idea";
-    return "# SELL-KIT: "+name+"\n\n"+
-      (v("seed")?"> Seed: "+v("seed")+"\n\n":"")+
-      "## Deal memo (one page)\n"+
-      "- **Buyer (one sentence):** "+md_v("buyer")+"\n"+
-      "- **Problem (their words):** "+md_v("problem")+"\n"+
-      "- **Why now:** "+md_v("whyNow")+"\n"+
-      "- **Offer + outcome:** "+md_v("offer")+"\n"+
-      "- **Price:** "+md_v("price")+"\n"+
-      "- **Channel + intent signal:** "+md_v("channel")+" ← "+md_v("intentSignal")+"\n"+
-      "- **Pre-build test:** "+md_v("testAsk")+" → PASS if "+md_v("passLine")+" / KILL if "+md_v("killLine")+" (by "+md_v("byWhen")+")\n\n"+
-      "## Sell deck (6 slides)\n"+
-      "1. The buyer + the painful moment — "+md_v("buyer")+"\n"+
-      "2. The problem (their words) + what it costs — "+md_v("problem")+"\n"+
-      "3. The outcome they're buying — "+md_v("offer")+"\n"+
-      "4. How it works (one diagram's worth; kept thin — you're selling the outcome)\n"+
-      "5. The offer + price — "+md_v("price")+"\n"+
-      "6. The ask — "+md_v("testAsk")+"\n\n"+
-      "## Value artifact\n"+md_v("artifact")+"\n\n"+
-      "## Validation plan\n"+
-      "- The ask: "+md_v("testAsk")+"\n- By: "+md_v("byWhen")+"\n"+
-      "- **PASS if** "+md_v("passLine")+" → build.\n"+
-      "- **KILL if** "+md_v("killLine")+" → pivot the BUYER first (usually the buyer sentence was wrong, not the idea).\n\n"+
-      "## Builder handoff spec\n"+
-      "- **Acceptance criteria:** "+md_v("acceptance")+"\n"+
-      "- **Must nail:** "+md_v("mustNail")+"\n"+
-      "- **Out of scope (v1):** "+md_v("outOfScope")+"\n";
+    var name=state.data.name||"Untitled idea",out="# SELL-KIT: "+name+"\n\n";
+    if(has("seed"))out+="> Seed: "+sk("seed")+"\n\n";
+
+    out+="## Deal memo (one page)\n"+
+      mdLine("Buyer (one sentence)","buyer")+
+      mdLine("Problem (their words)","problem")+
+      mdLine("Why now","whyNow")+
+      mdLine("Offer + outcome","offer")+
+      mdLine("Price","price")+
+      mdLine("Channel","channel")+
+      mdLine("Intent signal","intentSignal")+
+      mdTestLine()+"\n";
+
+    out+="## Sell deck (6 slides)\n"+
+      slide(1,"The buyer + the painful moment","buyer")+
+      slide(2,"The problem (their words) + what it costs","problem")+
+      slide(3,"The outcome they're buying","offer")+
+      "4. "+SLIDE4+"\n"+
+      slide(5,"The offer + price","price")+
+      slide(6,"The ask","testAsk")+"\n";
+
+    if(has("artifact"))out+="## Value artifact\n"+sk("artifact")+"\n\n";
+
+    out+="## Validation plan\n"+
+      mdLine("The ask","testAsk")+
+      mdLine("By","byWhen")+
+      (has("passLine")?"- **PASS if** "+sk("passLine")+" → build.\n":"")+
+      (has("killLine")?"- **KILL if** "+sk("killLine")+" → pivot the BUYER first (usually the buyer sentence was wrong, not the idea).\n":"")+
+      "\n";
+
+    out+="## Builder handoff spec\n"+
+      mdBlock("Acceptance criteria","acceptance")+
+      mdBlock("Must nail","mustNail")+
+      mdBlock("Out of scope (v1)","outOfScope");
+    return out;
   }
 
   /* Export: copy + download */
@@ -653,15 +687,15 @@
       '<section><h2>Deal memo</h2>'+
         row("Buyer (one sentence)",v("buyer"))+row("Problem — their words",v("problem"))+row("Why now",v("whyNow"))+
         row("Offer + outcome",v("offer"))+row("Price",v("price"))+
-        row("Channel + intent",[v("channel"),v("intentSignal")].filter(Boolean).join("  ←  "))+
+        row("Channel",v("channel"))+row("Intent signal",v("intentSignal"))+
         row("Pre-build test",v("testAsk"))+
-        row("Pass / Kill / By","PASS if "+(v("passLine")||"…")+"   ·   KILL if "+(v("killLine")||"…")+"   ·   by "+(v("byWhen")||"…"))+
+        row("Pass / Kill / By",[has("passLine")?"PASS if "+sk("passLine"):"",has("killLine")?"KILL if "+sk("killLine"):"",has("byWhen")?"by "+sk("byWhen"):""].filter(Boolean).join("   ·   "))+
       '</section>'+
       '<section><h2>Sell deck — 6 slides</h2><ol>'+
         '<li>The buyer + the painful moment — '+esc(v("buyer")||"—")+'</li>'+
         '<li>The problem in their words — '+esc(v("problem")||"—")+'</li>'+
         '<li>The outcome they buy — '+esc(v("offer")||"—")+'</li>'+
-        '<li>How it works (kept thin — sell the outcome)</li>'+
+        '<li>'+esc(SLIDE4)+'</li>'+
         '<li>The offer + price — '+esc(v("price")||"—")+'</li>'+
         '<li>The ask — '+esc(v("testAsk")||"—")+'</li>'+
       '</ol></section>'+
@@ -709,7 +743,8 @@
       '- **Why now:** ...\n'+
       '- **Offer + outcome:** ...\n'+
       '- **Price:** ...\n'+
-      '- **Channel + intent signal:** ... ← ...\n'+
+      '- **Channel:** ...\n'+
+      '- **Intent signal:** ...\n'+
       '- **Pre-build test:** ... → PASS if ... / KILL if ... (by ...)\n\n'+
       '## Value artifact\n...\n\n'+
       '## Builder handoff spec\n'+
@@ -819,8 +854,12 @@
     d.whyNow=grab(md,"Why now:");
     d.offer=grab(md,"Offer + outcome:");
     d.price=grab(md,"Price:");
+    /* Old exports welded both fields onto one line with "←"; new ones label them
+       separately. Accept BOTH — combined first, so a loose "Channel:" grab can
+       never shadow the legacy line. */
     var ch=grab(md,"Channel + intent signal:");
     if(ch){var cp=ch.split(/←/);d.channel=(cp[0]||"").replace(/[<\-\s]+$/,"").trim();d.intentSignal=(cp[1]||"").trim();}
+    else{d.channel=grab(md,"Channel:");d.intentSignal=grab(md,"Intent signal:");}
     parseTest(grab(md,"Pre-build test:"),d);
     var av=md.match(/##\s*Value artifact\s*\n([\s\S]*?)(?=\n##\s|$)/);if(av)d.artifact=av[1].trim();
     d.acceptance=grab(md,"Acceptance criteria:");
