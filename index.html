@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Stress-test a startup idea through seven brutal gates until it's sellable with no product built.">
 <meta name="twitter:image" content="https://app.ideaforgepro.com/og-image.png?3">
 <title>Idea Forge Pro — Sell Before Build</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c1728'/%3E%3Cpath fill='%23ff5a1f' d='M16 4c1.2 5 6 7 6 12.5A6 6 0 0 1 10 16.5c0-1.8 1-3 1-3-3 1.8-4 4.6-4 7.5a9 9 0 0 0 18 0C25 15 18 13 16 4z'/%3E%3Cpath fill='%23ffd23f' d='M16.5 16c.9 1.8 2.8 2.8 2.8 5.4a2.9 2.9 0 0 1-5.7 0c0-1.8 1.9-2.9 2.9-5.4z'/%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="any">
 </head>
 <body>
 <style>
@@ -87,6 +87,7 @@
   header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
   .brand .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 6px}
   .brand h1{font-size:clamp(26px,4vw,38px);line-height:1.02;margin:0;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+  .brand h1 .mark{height:.92em;width:auto;vertical-align:-.08em;margin-right:9px;filter:drop-shadow(0 0 6px rgba(247,148,35,.5))}
   .brand .sub{color:var(--ink-soft);margin:8px 0 0;max-width:56ch;font-size:14px}
   .toolbtns{display:flex;gap:8px;flex-wrap:wrap}
   .themebtn{font-family:var(--mono);font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);
@@ -192,6 +193,12 @@
   .rcard.span2{grid-column:1 / -1}
   .rcard .rk{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
   .rcard .rv{font-size:14px;color:var(--ink);margin-top:6px;white-space:pre-wrap;word-break:break-word;line-height:1.5}
+  /* Provenance chip. ESTIMATED is the one that must catch the eye — it is the
+     claim nobody sourced — so only it gets the warm colour; the other two stay
+     quiet so the document doesn't read as a wall of badges. */
+  .rtag{display:inline-block;margin-left:7px;padding:1px 6px;border-radius:3px;vertical-align:1px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;border:1px solid var(--line);color:var(--muted)}
+  .rtag.estimated{color:var(--accent);border-color:var(--accent)}
   .rcard .rv.pk{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line-strong);color:var(--ink-soft)}
   .rcard .rv.pk b{font-family:var(--mono);font-size:11px;color:var(--ink)}
   .rcard .price{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:16px}
@@ -210,6 +217,10 @@
     #printReport h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--ui);color:#111;border-bottom:1px solid #bbb;padding-bottom:4px;margin:0 0 8px}
     #printReport .pr-k{font-family:var(--ui);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-top:9px}
     #printReport .pr-v{font-size:14px;margin:2px 0 0;white-space:pre-wrap}
+    #printReport .pr-tag{font-family:var(--mono);font-size:9px;letter-spacing:.09em;border:1px solid #bbb;
+      border-radius:3px;padding:0 4px;margin-left:6px;color:#666}
+    #printReport .pr-disc{margin-top:22px;padding:11px 13px;border:1px solid #999;border-radius:4px;
+      font-size:12.5px;line-height:1.55;color:#222}
     #printReport ol{margin:4px 0 0 18px} #printReport li{font-size:13px;margin:2px 0}
   }
 </style>
@@ -219,7 +230,7 @@
   <header class="top">
     <div class="brand">
       <p class="eyebrow">Sell before build · pre-product validation</p>
-      <h1><span aria-hidden="true">🔥</span> Idea Forge Pro</h1>
+      <h1><img class="mark" src="/mark.webp" alt=""> Idea Forge Pro</h1>
       <p class="sub">Design the <b>sale</b> before the product. An idea graduates only when it's sellable tomorrow with no code — a specific buyer, a real offer, and a test that pulls a dollar or a signature before a line is written.</p>
     </div>
     <div class="toolbtns">
@@ -337,7 +348,53 @@
     groq:{label:"Groq",baseUrl:"https://api.groq.com/openai/v1",model:"llama-3.3-70b-versatile"},
     custom:{label:"Custom (any OpenAI-compatible endpoint)",baseUrl:"",model:""}
   };
-  var AI_SYSTEM="You are a ruthless pre-seed investor and the sharpest skeptic in the room, running a 'sell before build' review. Follow the user's instructions exactly, especially any required output template (a fenced Sell-Kit block). Be rigorous, specific, and numeric; never flattering. When unsure whether a gate is strong, rule it weak.";
+  var AI_SYSTEM="You are a ruthless pre-seed investor and the sharpest skeptic in the room, running a 'sell before build' review. Follow the user's instructions exactly, especially any required output template (a fenced Sell-Kit block). Be rigorous, specific, and numeric; never flattering. When unsure whether a gate is strong, rule it weak."+
+    "\n\nYou are operating under INTEGRA governance. Truth as unconcealment is the priority: acknowledge uncertainty rather than smoothing over it, and say plainly what you do not know. Never assert a specific factual claim — a percentage, a market size, a cited finding — without either hedging it or naming its basis. Prefer an admitted gap to a confident invention. Do not append any attestation, seal, or alignment-confirmation text to your output.";
+
+  /* ===== INTEGRA compliance =====
+     Ported from Deliberon.Core/Alignment/IntegraComplianceChecker.cs — same patterns,
+     same hedging markers, same retry contract. A specific factual claim asserted with
+     no hedging and no source is a HARD violation: the response goes back for a rewrite
+     instead of reaching the user.
+
+     The nine-key Constitution itself is deliberately NOT shipped here. This file is
+     public source; the framework's own Suppression Rule requires it never surface in
+     output, so publishing it in a static page would defeat it. What ships is the
+     operative requirement (above) and the enforcement (below) — the parts that act. */
+  var INTEGRA_CLAIM_PATTERNS=[
+    /\b\d+\.?\d*\s*%/,
+    /\b\d[\d,]*\s*(?:million|billion|thousand|hundred)\b/i,
+    /(?:research|studies|data|evidence|experts?|statistics?)\s+(?:shows?|suggests?|indicates?|confirms?|reveals?)/i,
+    /according\s+to\s+[\w][\w\s]{0,25}/i,
+    /(?:it\s+is|has\s+been)\s+(?:proven|established|confirmed|demonstrated)\s+that/i
+  ];
+  var INTEGRA_HEDGES=["i think","i believe","might ","may ","possibly","probably","suggest",
+    "could be","unclear","uncertain","not sure","i'm not certain","approximately",
+    "roughly","as far as i know","to my knowledge","in my view","from what i","[prior]","[cited:"];
+  /* Returns {evidence} for a hard violation, or null. */
+  function integraCheck(text){
+    if(!text||!text.trim())return null;
+    var m=null;
+    for(var i=0;i<INTEGRA_CLAIM_PATTERNS.length;i++){var hit=text.match(INTEGRA_CLAIM_PATTERNS[i]);if(hit){m=hit;break;}}
+    if(!m)return null;
+    var lower=text.toLowerCase();
+    for(var j=0;j<INTEGRA_HEDGES.length;j++)if(lower.indexOf(INTEGRA_HEDGES[j])>=0)return null;
+    var idx=m.index||0,
+        snip=text.slice(Math.max(0,idx-20),Math.min(text.length,idx+m[0].length+40)).trim().replace(/\s+/g," ");
+    if(snip.length>80)snip=snip.slice(0,77)+"…";
+    return {evidence:snip};
+  }
+  function integraRetryPrompt(vio,original){
+    return "[INTEGRA COMPLIANCE NOTICE]\n"+
+      "Your prior response asserted the following specific factual claim without hedging or citing a source:\n\n"+
+      '  "'+vio.evidence+'"\n\n'+
+      "INTEGRA requires that specific factual claims be grounded: acknowledge appropriate uncertainty "+
+      '("I believe...", "this may vary...", "approximately..."), cite the basis for the claim, '+
+      "or retract it if you cannot support it.\n\n"+
+      "Produce your COMPLETE revised response (not an acknowledgment, not a note). "+
+      "Write the full text as if responding for the first time, with the unsourced claim corrected or hedged. "+
+      "Begin immediately:\n\n"+original;
+  }
   var LS_API="ifp-api";
   function getApiConfig(){try{return JSON.parse(localStorage.getItem(LS_API))||{};}catch(e){return {};}}
   function saveApiConfig(c){try{localStorage.setItem(LS_API,JSON.stringify(c));}catch(e){}}
@@ -403,8 +460,10 @@
   var CATEGORY=["businesses","business","companies","company","developers","users","people","teams","team","everyone","anyone","startups","startup","smbs","smb","organizations","organisations","customers","professionals","marketers","consumers","clients","brands"];
 
   var state=load();
-  function blank(){return {current:0,data:{},passed:{},killedRounds:0};}
-  function load(){try{var s=JSON.parse(localStorage.getItem(LS));if(s&&s.data)return s;}catch(e){}return blank();}
+  function blank(){return {current:0,data:{},prov:{},passed:{},killedRounds:0};}
+  /* prov may be absent in a kit saved before provenance existed - backfill it
+     rather than letting every reader guard for undefined. */
+  function load(){try{var s=JSON.parse(localStorage.getItem(LS));if(s&&s.data){if(!s.prov)s.prov={};return s;}}catch(e){}return blank();}
   function save(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
   function stepById(id){for(var i=0;i<STEPS.length;i++)if(STEPS[i].id===id)return STEPS[i];return null;}
   function indexById(id){for(var i=0;i<STEPS.length;i++)if(STEPS[i].id===id)return i;return 0;}
@@ -567,31 +626,34 @@
     act.appendChild(mkBtn("btn ghost","New idea",doReset));
     wrap.appendChild(act);
     var g=el("div","result-grid");
-    function card(label,val,span,price){
+    /* Cards take the field KEY, not a pre-read value — one lookup, and the
+       provenance chip can never drift out of step with the text beside it. */
+    function tagHtml(key){var p=provOf(key);return p?' <span class="rtag '+p+'">'+PROV_LABEL[p]+'</span>':'';}
+    function card(label,key,span,price){
       var c=el("div","rcard"+(span?" span2":""));
-      c.appendChild(el("div","rk",esc(label)));
-      var vv=el("div","rv");
+      c.appendChild(el("div","rk",esc(label)+tagHtml(key)));
+      var vv=el("div","rv"),val=v(key);
       if(price)vv.innerHTML='<span class="price">'+esc(val||"—")+'</span>';
       else vv.textContent=val||"—";
       c.appendChild(vv);g.appendChild(c);
     }
-    card("Buyer",v("buyer"),true);
-    card("Problem — their words",v("problem"),true);
-    card("Why now",v("whyNow"),false);
-    card("Price",v("price"),false,true);
-    card("Offer + outcome",v("offer"),true);
-    card("Channel",v("channel"),false);
-    card("Intent signal",v("intentSignal"),false);
+    card("Buyer","buyer",true);
+    card("Problem — their words","problem",true);
+    card("Why now","whyNow",false);
+    card("Price","price",false,true);
+    card("Offer + outcome","offer",true);
+    card("Channel","channel",false);
+    card("Intent signal","intentSignal",false);
     var tc=el("div","rcard span2");
-    tc.appendChild(el("div","rk","Pre-build test"));
+    tc.appendChild(el("div","rk","Pre-build test"+tagHtml("testAsk")));
     tc.appendChild(el("div","rv",esc(v("testAsk")||"—")));
     var pk=el("div","rv pk");
     pk.innerHTML='<b>PASS</b> '+esc(v("passLine")||"…")+'&nbsp;&nbsp;·&nbsp;&nbsp;<b>KILL</b> '+esc(v("killLine")||"…")+(v("byWhen")?'&nbsp;&nbsp;·&nbsp;&nbsp;by '+esc(v("byWhen")):'');
     tc.appendChild(pk);g.appendChild(tc);
-    card("Value artifact",v("artifact"),true);
-    card("Acceptance criteria",v("acceptance"),true);
-    card("Must nail",v("mustNail"),false);
-    card("Out of scope (v1)",v("outOfScope"),false);
+    card("Value artifact","artifact",true);
+    card("Acceptance criteria","acceptance",true);
+    card("Must nail","mustNail",false);
+    card("Out of scope (v1)","outOfScope",false);
     wrap.appendChild(g);
     return wrap;
   }
@@ -604,13 +666,43 @@
      Strip separator glyphs once, here; keep sentence punctuation. */
   function sk(k){return (v(k)||"").replace(/[\s→←\/|·]+$/,"").trim();}
   function has(k){return sk(k).length>0;}
+
+  /* ===== Provenance — a claim's support, held BESIDE the text, never inside it
+     state.prov[field] = "proved" | "asserted" | "estimated"
+
+     proved     evidence exists and was named
+     asserted   the founder's claim, taken at face value, unverified
+     estimated  the model's number. NOT sourced. This is the one that must never
+                travel into a pitch wearing a straight face.
+
+     Kept out of the value itself so the editable inputs stay clean, so there is
+     still ONE canonical answer to "what is this field's text?", and so the Zod
+     rewrite can lift these into a typed field instead of re-parsing prose. */
+  var PROV_LABEL={proved:"PROVED",asserted:"ASSERTED",estimated:"ESTIMATED"};
+  var PROV_FIELD={buyer:"Buyer",problem:"Problem",whyNow:"Why now",offer:"Offer + outcome",
+    price:"Price",channel:"Channel",intentSignal:"Intent signal",testAsk:"Pre-build test",
+    artifact:"Value artifact",acceptance:"Acceptance criteria",mustNail:"Must nail",outOfScope:"Out of scope"};
+  function provOf(k){var p=(state.prov||{})[k];return PROV_LABEL[p]?p:"";}
+  /* ONE renderer for the mark. Every surface calls this — never inline a tag. */
+  function provTag(k){var p=provOf(k);return p?" ["+PROV_LABEL[p]+"]":"";}
+  /* Peel a tag off imported text; hand back both halves so neither is lost. */
+  function provSplit(t){
+    var s=t||"",m=s.match(/\s*\[(PROVED|ASSERTED|ESTIMATED)\]\s*$/i);
+    if(!m)return {text:s.trim(),prov:""};
+    return {text:s.slice(0,m.index).trim(),prov:m[1].toLowerCase()};
+  }
+  function unsourced(){
+    var p=state.prov||{};
+    return Object.keys(PROV_FIELD).filter(function(k){return p[k]==="estimated"&&has(k);});
+  }
+
   /* A missing field is OMITTED — never printed as an ellipsis. */
-  function mdLine(lab,k){return has(k)?"- **"+lab+":** "+sk(k)+"\n":"";}
+  function mdLine(lab,k){return has(k)?"- **"+lab+":** "+sk(k)+provTag(k)+"\n":"";}
   /* A multi-line value breaks an inline "- **Label:** value" bullet. */
   function mdBlock(lab,k){
     if(!has(k))return "";
     var t=sk(k);
-    return /\n/.test(t)?"- **"+lab+":**\n\n"+t.replace(/^/gm,"  ")+"\n\n":"- **"+lab+":** "+t+"\n";
+    return /\n/.test(t)?"- **"+lab+":**"+provTag(k)+"\n\n"+t.replace(/^/gm,"  ")+"\n\n":"- **"+lab+":** "+t+provTag(k)+"\n";
   }
   function mdTestLine(){
     if(!has("testAsk")&&!has("passLine")&&!has("killLine"))return "";
@@ -619,7 +711,9 @@
     if(has("killLine"))pk.push("KILL if "+sk("killLine"));
     if(pk.length)s+=" → "+pk.join(" / ");
     if(has("byWhen"))s+=" (by "+sk("byWhen")+")";
-    return s+"\n";
+    /* Tag goes LAST, not after the ask: this line is composed of four fields,
+       and provSplit peels from the end. Mid-line it would be unrecoverable. */
+    return s+provTag("testAsk")+"\n";
   }
   function slide(n,lab,k){return n+". "+lab+" — "+(has(k)?sk(k):"—")+"\n";}
 
@@ -646,7 +740,7 @@
       slide(5,"The offer + price","price")+
       slide(6,"The ask","testAsk")+"\n";
 
-    if(has("artifact"))out+="## Value artifact\n"+sk("artifact")+"\n\n";
+    if(has("artifact"))out+="## Value artifact"+provTag("artifact")+"\n"+sk("artifact")+"\n\n";
 
     out+="## Validation plan\n"+
       mdLine("The ask","testAsk")+
@@ -659,8 +753,47 @@
       mdBlock("Acceptance criteria","acceptance")+
       mdBlock("Must nail","mustNail")+
       mdBlock("Out of scope (v1)","outOfScope");
-    return out;
+    return out+mdDisclosure();
   }
+
+  /* Disclosure, NOT branding. The Sell-Kit is the user's document and carries no
+     product mark; the only thing we add is a line telling its reader which
+     claims are unsourced. That is the functional version of the same fact — it
+     serves the reader instead of advertising us. */
+  /* ONE sentence, three renderings. The markdown, the PDF and any future
+     surface must not each compose their own wording — that drift is exactly
+     what broke the exports before. */
+  function provCounts(){
+    var keys=Object.keys(PROV_FIELD).filter(has);
+    return {claimable:keys.length,marked:keys.filter(provOf).length};
+  }
+  function discSentence(){
+    var u=unsourced();
+    if(u.length){
+      var many=u.length>1,names=u.map(function(k){return PROV_FIELD[k];});
+      return u.length+" claim"+(many?"s":"")+" in this document "+(many?"are":"is")+
+        " a model estimate, not a sourced fact — "+names.join(", ")+
+        ". Verify "+(many?"them":"it")+" before putting "+(many?"them":"it")+
+        " in front of someone who matters.";
+    }
+    /* A filled-in kit carrying NO marks at all means the run came back
+       unlabelled — not that everything checked out. Staying silent would let
+       an unlabelled kit read as a clean one, which is the failure this whole
+       feature exists to prevent, arriving by the back door. Say it plainly. */
+    var c=provCounts();
+    if(c.claimable>=4&&c.marked===0)
+      return "This kit carries no provenance marks — the run that produced it did not label its claims. "+
+        "Nothing here has been separated into proved, asserted or estimated, so treat every figure as unverified.";
+    return "";
+  }
+  /* A heading, not a loose paragraph: grab() runs to the next "## " or EOF, so
+     an unheaded trailing block would be swallowed into the last field on
+     re-import. The heading is what makes the round-trip safe. */
+  /* No "---" rule before the heading: grab() runs until "\n## ", so a horizontal
+     rule sitting above it gets captured into the preceding field. The heading
+     alone separates the section and keeps the round-trip clean. */
+  function mdDisclosure(){var s=discSentence();return s?"\n## Before you rely on this\n\n"+s+"\n":"";}
+  function printDisclosure(){var s=discSentence();return s?'<div class="pr-disc"><b>Before you rely on this — </b>'+esc(s)+'</div>':"";}
 
   /* Export: copy + download */
   function doCopy(){writeClip(buildMD(),"Sell-Kit copied");}
@@ -681,15 +814,19 @@
   /* Print */
   function doPrint(){
     var d=state.data,name=d.name||"Untitled idea";
-    function row(label,val){return '<div class="pr-k">'+esc(label)+'</div><p class="pr-v">'+esc(val||"—")+'</p>';}
+    /* row() takes a KEY so the chip cannot drift from the value; rowRaw() is for
+       the one line that is composed from several fields rather than being one. */
+    function prTag(key){var p=provOf(key);return p?' <span class="pr-tag">'+PROV_LABEL[p]+'</span>':'';}
+    function rowRaw(label,val){return '<div class="pr-k">'+esc(label)+'</div><p class="pr-v">'+esc(val||"—")+'</p>';}
+    function row(label,key){return '<div class="pr-k">'+esc(label)+prTag(key)+'</div><p class="pr-v">'+esc(v(key)||"—")+'</p>';}
     var html='<h1>'+esc(name)+'</h1>'+
       '<div class="pr-meta">Sell-Kit · sell-before-build validation'+(v("seed")?' · '+esc(v("seed").split("\n")[0]).slice(0,120):'')+'</div>'+
       '<section><h2>Deal memo</h2>'+
-        row("Buyer (one sentence)",v("buyer"))+row("Problem — their words",v("problem"))+row("Why now",v("whyNow"))+
-        row("Offer + outcome",v("offer"))+row("Price",v("price"))+
-        row("Channel",v("channel"))+row("Intent signal",v("intentSignal"))+
-        row("Pre-build test",v("testAsk"))+
-        row("Pass / Kill / By",[has("passLine")?"PASS if "+sk("passLine"):"",has("killLine")?"KILL if "+sk("killLine"):"",has("byWhen")?"by "+sk("byWhen"):""].filter(Boolean).join("   ·   "))+
+        row("Buyer (one sentence)","buyer")+row("Problem — their words","problem")+row("Why now","whyNow")+
+        row("Offer + outcome","offer")+row("Price","price")+
+        row("Channel","channel")+row("Intent signal","intentSignal")+
+        row("Pre-build test","testAsk")+
+        rowRaw("Pass / Kill / By",[has("passLine")?"PASS if "+sk("passLine"):"",has("killLine")?"KILL if "+sk("killLine"):"",has("byWhen")?"by "+sk("byWhen"):""].filter(Boolean).join("   ·   "))+
       '</section>'+
       '<section><h2>Sell deck — 6 slides</h2><ol>'+
         '<li>The buyer + the painful moment — '+esc(v("buyer")||"—")+'</li>'+
@@ -699,13 +836,14 @@
         '<li>The offer + price — '+esc(v("price")||"—")+'</li>'+
         '<li>The ask — '+esc(v("testAsk")||"—")+'</li>'+
       '</ol></section>'+
-      '<section><h2>Value artifact</h2><p class="pr-v">'+esc(v("artifact")||"—")+'</p></section>'+
+      '<section><h2>Value artifact'+prTag("artifact")+'</h2><p class="pr-v">'+esc(v("artifact")||"—")+'</p></section>'+
       '<section><h2>Validation plan</h2>'+
-        row("The ask",v("testAsk"))+row("By",v("byWhen"))+row("PASS → build",v("passLine"))+row("KILL → pivot the buyer",v("killLine"))+
+        row("The ask","testAsk")+row("By","byWhen")+row("PASS → build","passLine")+row("KILL → pivot the buyer","killLine")+
       '</section>'+
       '<section><h2>Builder handoff spec</h2>'+
-        row("Acceptance criteria",v("acceptance"))+row("Must nail",v("mustNail"))+row("Out of scope (v1)",v("outOfScope"))+
-      '</section>';
+        row("Acceptance criteria","acceptance")+row("Must nail","mustNail")+row("Out of scope (v1)","outOfScope")+
+      '</section>'+
+      printDisclosure();
     $("#printReport").innerHTML=html;
     window.print();
   }
@@ -724,7 +862,8 @@
       '   - Channel: exactly ONE, gone deep? Intent signal you can actually detect? Reachable at scale?\n'+
       '   - Builder spec: acceptance criteria OBSERVABLE and measurable (times, counts, ratings), not "feels authentic"? Minimum scope; explicit out-of-scope?\n'+
       '3) THE KILL SHOT — the single objection most likely to sink it, stated plainly; does it survive, and how?\n'+
-      '4) COPY CHECK — flag over-claiming ("remarkably accurate", "faithful", "guaranteed") that invites a credibility fight; suggest defensible wording.\n\n'+
+      '4) COPY CHECK — flag over-claiming ("remarkably accurate", "faithful", "guaranteed") that invites a credibility fight; suggest defensible wording.\n'+
+      '5) PROVENANCE — for EVERY claim you output, decide what actually backs it: PROVED (evidence exists and you can name it), ASSERTED (the founder claims it; you are passing it through unverified), or ESTIMATED (your own number or inference — NOT sourced). Never mark a figure you generated as PROVED. When you are unsure, choose the weaker label. Then say plainly which claims are unsourced and what would source them.\n\n'+
       'IDEA: '+(v("name")||"(unnamed)")+'\n'+
       (v("seed")?'SEED: '+v("seed")+'\n':'')+'\n'+
       'GATE 1 — Buyer: '+(v("buyer")||"(blank)")+'\n'+
@@ -734,23 +873,24 @@
       'GATE 5 — Pre-build test: '+(v("testAsk")||"(blank)")+' | PASS '+(v("passLine")||"?")+' | KILL '+(v("killLine")||"?")+' | by '+(v("byWhen")||"?")+'\n'+
       'GATE 6 — Channel / intent: '+(v("channel")||"(blank)")+' / '+(v("intentSignal")||"(blank)")+'\n'+
       'GATE 7 — Builder spec: '+(v("acceptance")||"(blank)")+'\n\n'+
-      'After your analysis, output ONLY the reforged kit as a fenced code block in EXACTLY this template, so my tool can re-import it:\n\n'+
+      'After your analysis, output ONLY the reforged kit as a fenced code block in EXACTLY this template, so my tool can re-import it.\n'+
+      'Every line ending [TAG] must end with exactly one of [PROVED], [ASSERTED] or [ESTIMATED] — the literal word in square brackets, last thing on the line, nothing after it. Do not omit it and do not invent other tags.\n\n'+
       '```\n'+
       '# SELL-KIT: '+(v("name")||"Idea")+'\n\n'+
       '## Deal memo (one page)\n'+
-      '- **Buyer (one sentence):** ...\n'+
-      '- **Problem (their words):** ...\n'+
-      '- **Why now:** ...\n'+
-      '- **Offer + outcome:** ...\n'+
-      '- **Price:** ...\n'+
-      '- **Channel:** ...\n'+
-      '- **Intent signal:** ...\n'+
-      '- **Pre-build test:** ... → PASS if ... / KILL if ... (by ...)\n\n'+
-      '## Value artifact\n...\n\n'+
+      '- **Buyer (one sentence):** ... [TAG]\n'+
+      '- **Problem (their words):** ... [TAG]\n'+
+      '- **Why now:** ... [TAG]\n'+
+      '- **Offer + outcome:** ... [TAG]\n'+
+      '- **Price:** ... [TAG]\n'+
+      '- **Channel:** ... [TAG]\n'+
+      '- **Intent signal:** ... [TAG]\n'+
+      '- **Pre-build test:** ... → PASS if ... / KILL if ... (by ...) [TAG]\n\n'+
+      '## Value artifact [TAG]\n...\n\n'+
       '## Builder handoff spec\n'+
-      '- **Acceptance criteria:** ...\n'+
-      '- **Must nail:** ...\n'+
-      '- **Out of scope (v1):** ...\n'+
+      '- **Acceptance criteria:** ... [TAG]\n'+
+      '- **Must nail:** ... [TAG]\n'+
+      '- **Out of scope (v1):** ... [TAG]\n'+
       '```';
   }
   var GATE_TESTS={
@@ -777,9 +917,10 @@
     if(cfg.key&&cfg.baseUrl&&cfg.model)runAiBackend(prompt,scope,cfg);
     else{showPrompt(prompt);openSettings();toast("Add your API key in Settings to forge automatically");}
   }
-  function runAiBackend(prompt,scope,cfg){
-    showResult("","✦ Sharpening — consulting the skeptic…",true,false);
-    fetch(cfg.baseUrl.replace(/\/+$/,"")+"/chat/completions",{
+  /* One call to the provider. Extracted so the compliance retry reuses it verbatim
+     rather than growing a second, drifting copy of the request. */
+  function aiCall(cfg,prompt){
+    return fetch(cfg.baseUrl.replace(/\/+$/,"")+"/chat/completions",{
       method:"POST",
       headers:{"Content-Type":"application/json","Authorization":"Bearer "+cfg.key},
       body:JSON.stringify({model:cfg.model,temperature:0.4,messages:[{role:"system",content:AI_SYSTEM},{role:"user",content:prompt}]})
@@ -788,7 +929,28 @@
       .then(function(res){
         var text=res&&res.choices&&res.choices[0]&&res.choices[0].message?res.choices[0].message.content:"";
         if(!text)throw new Error("empty response");
-        showResult(text,scope==="all"?"The forge — full reforge":"Gate sharpened",false,scope==="all");
+        return text;
+      });
+  }
+  function runAiBackend(prompt,scope,cfg){
+    showResult("","✦ Sharpening — consulting the skeptic…",true,false);
+    aiCall(cfg,prompt)
+      .then(function(text){
+        var vio=integraCheck(text);
+        if(!vio)return {text:text,flag:null};
+        /* Hard violation: send it back once, exactly as the council does. */
+        showResult("","⚠ INTEGRA — unsourced claim, sending it back…",true,false);
+        return aiCall(cfg,integraRetryPrompt(vio,text)).then(function(second){
+          /* Uncorrected after a retry is surfaced, not swallowed. */
+          return {text:second,flag:integraCheck(second)?vio:null};
+        },function(){ return {text:text,flag:vio}; });
+      })
+      .then(function(r){
+        var body=r.flag
+          ? "⚠ INTEGRA: this response still asserts a claim with no source or hedge after one rewrite — \""+
+            r.flag.evidence+"\". Treat it as unverified.\n\n"+r.text
+          : r.text;
+        showResult(body,scope==="all"?"The forge — full reforge":"Gate sharpened",false,scope==="all");
       })
       .catch(function(err){
         var msg=String(err&&err.message||err);showPrompt(prompt);
@@ -844,44 +1006,68 @@
       }
     }
   }
-  /* Format A — the tool's own labelled Sell-Kit export */
-  function parseFormatA(md){
+  /* grab + peel the provenance tag in one move, so a tag can never survive into
+     a field value and no caller has to remember to strip it. */
+  function grabP(md,label,key,prov){
+    var r=provSplit(grab(md,label));
+    if(r.prov&&prov)prov[key]=r.prov;
+    return r.text;
+  }
+  /* Format A — the tool's own labelled Sell-Kit export.
+     `prov` is an optional collector; marks are returned separately from the
+     field text so they never contaminate state.data. */
+  function parseFormatA(md,prov){
     var d={};
     var nm=md.match(/#\s*SELL-KIT:\s*(.+)/);if(nm)d.name=nm[1].trim();
     var sd=md.match(/>\s*Seed:\s*([\s\S]*?)(?=\n##\s)/);if(sd)d.seed=sd[1].trim();
-    d.buyer=grab(md,"Buyer (one sentence):");
-    d.problem=grab(md,"Problem (their words):");
-    d.whyNow=grab(md,"Why now:");
-    d.offer=grab(md,"Offer + outcome:");
-    d.price=grab(md,"Price:");
+    d.buyer=grabP(md,"Buyer (one sentence):","buyer",prov);
+    d.problem=grabP(md,"Problem (their words):","problem",prov);
+    d.whyNow=grabP(md,"Why now:","whyNow",prov);
+    d.offer=grabP(md,"Offer + outcome:","offer",prov);
+    d.price=grabP(md,"Price:","price",prov);
     /* Old exports welded both fields onto one line with "←"; new ones label them
        separately. Accept BOTH — combined first, so a loose "Channel:" grab can
        never shadow the legacy line. */
-    var ch=grab(md,"Channel + intent signal:");
-    if(ch){var cp=ch.split(/←/);d.channel=(cp[0]||"").replace(/[<\-\s]+$/,"").trim();d.intentSignal=(cp[1]||"").trim();}
-    else{d.channel=grab(md,"Channel:");d.intentSignal=grab(md,"Intent signal:");}
-    parseTest(grab(md,"Pre-build test:"),d);
-    var av=md.match(/##\s*Value artifact\s*\n([\s\S]*?)(?=\n##\s|$)/);if(av)d.artifact=av[1].trim();
-    d.acceptance=grab(md,"Acceptance criteria:");
-    d.mustNail=grab(md,"Must nail:");
-    d.outOfScope=grab(md,"Out of scope (v1):");
+    var ch=provSplit(grab(md,"Channel + intent signal:"));
+    if(ch.text){
+      var cp=ch.text.split(/←/);
+      d.channel=(cp[0]||"").replace(/[<\-\s]+$/,"").trim();d.intentSignal=(cp[1]||"").trim();
+      if(ch.prov&&prov){prov.channel=ch.prov;prov.intentSignal=ch.prov;}
+    }
+    else{d.channel=grabP(md,"Channel:","channel",prov);d.intentSignal=grabP(md,"Intent signal:","intentSignal",prov);}
+    /* Peel the tag BEFORE parseTest, or it lands inside the byWhen fragment. */
+    var tl=provSplit(grab(md,"Pre-build test:"));
+    if(tl.prov&&prov)prov.testAsk=tl.prov;
+    parseTest(tl.text,d);
+    /* The artifact tag rides on the heading, not a bullet. */
+    var av=md.match(/##\s*Value artifact\s*(?:\[(PROVED|ASSERTED|ESTIMATED)\])?\s*\n([\s\S]*?)(?=\n##\s|\n---|$)/i);
+    if(av){d.artifact=(av[2]||"").trim();if(av[1]&&prov)prov.artifact=av[1].toLowerCase();}
+    d.acceptance=grabP(md,"Acceptance criteria:","acceptance",prov);
+    d.mustNail=grabP(md,"Must nail:","mustNail",prov);
+    d.outOfScope=grabP(md,"Out of scope (v1):","outOfScope",prov);
     return d;
   }
   /* Format B — an AI reforge laid out as "GATE 1 — Buyer", "GATE 2 …" etc. */
-  function parseFormatB(md){
+  function parseFormatB(md,prov){
     var re=/GATE\s*([1-7])\b[^\n]*/gi, marks=[], m;
     while((m=re.exec(md)))marks.push({n:+m[1],start:m.index,end:re.lastIndex});
     if(marks.length<3)return null;
-    var blk={};
-    for(var i=0;i<marks.length;i++){var to=(i+1<marks.length)?marks[i+1].start:md.length;blk[marks[i].n]=cleanTxt(md.slice(marks[i].end,to));}
+    var blk={},pv={};
+    for(var i=0;i<marks.length;i++){
+      var to=(i+1<marks.length)?marks[i+1].start:md.length;
+      /* Peel the tag per block, same contract as Format A. */
+      var r=provSplit(cleanTxt(md.slice(marks[i].end,to)));
+      blk[marks[i].n]=r.text; if(r.prov)pv[marks[i].n]=r.prov;
+    }
+    function mark(n,key){if(pv[n]&&prov)prov[key]=pv[n];}
     var d={};
-    if(blk[1])d.buyer=blk[1];
-    if(blk[2])d.problem=blk[2];
-    if(blk[3]){d.offer=blk[3];var pr=blk[3].match(/\$\s?\d[\d.,]*(?:\s*\/\s*(?:mo|month|yr|year))?/i);if(pr)d.price=pr[0].trim();}
-    if(blk[4])d.artifact=blk[4];
-    if(blk[5])parseTest(blk[5],d);
-    if(blk[6]){var cp=blk[6].split(/←/);d.channel=(cp[0]||blk[6]).trim();if(cp[1])d.intentSignal=cp[1].trim();}
-    if(blk[7])d.acceptance=blk[7];
+    if(blk[1]){d.buyer=blk[1];mark(1,"buyer");}
+    if(blk[2]){d.problem=blk[2];mark(2,"problem");}
+    if(blk[3]){d.offer=blk[3];mark(3,"offer");var pr=blk[3].match(/\$\s?\d[\d.,]*(?:\s*\/\s*(?:mo|month|yr|year))?/i);if(pr){d.price=pr[0].trim();mark(3,"price");}}
+    if(blk[4]){d.artifact=blk[4];mark(4,"artifact");}
+    if(blk[5]){parseTest(blk[5],d);mark(5,"testAsk");}
+    if(blk[6]){var cp=blk[6].split(/←/);d.channel=(cp[0]||blk[6]).trim();if(cp[1])d.intentSignal=cp[1].trim();mark(6,"channel");}
+    if(blk[7]){d.acceptance=blk[7];mark(7,"acceptance");}
     return d;
   }
   function mergeData(base,over){var o={};Object.keys(base||{}).forEach(function(k){o[k]=base[k];});Object.keys(over).forEach(function(k){if(over[k])o[k]=over[k];});return o;}
@@ -890,11 +1076,21 @@
     if(!md||md.trim().length<20)return false;
     // strip a wrapping code fence if the AI returned one
     var body=md.replace(/^\s*```[a-z]*\s*/i,"").replace(/```\s*$/,"");
-    var d=parseFormatA(body);
-    if(!(d.buyer||d.offer||d.problem)){var b=parseFormatB(body);if(b)d=mergeData(d,b);}
+    var prov={};
+    var d=parseFormatA(body,prov);
+    if(!(d.buyer||d.offer||d.problem)){var b=parseFormatB(body,prov);if(b)d=mergeData(d,b);}
     Object.keys(d).forEach(function(k){if(!d[k])delete d[k];});
     if(!(d.buyer||d.offer||d.problem||d.artifact||d.acceptance))return false;
     state.data=mergeData(state.data,d);
+    /* Marks travel with the text they describe. If this import replaced a
+       field's text, the OLD mark is void — take the new one, or none. Merging
+       instead would leave last run's "PROVED" sitting on this run's sentence,
+       which is the exact failure this whole feature exists to prevent. */
+    if(!state.prov)state.prov={};
+    Object.keys(d).forEach(function(k){
+      if(!PROV_FIELD[k])return;
+      if(prov[k])state.prov[k]=prov[k]; else delete state.prov[k];
+    });
     state.passed={};
     STEPS.forEach(function(s){if(s.kind==="gate"&&gateFilled(s))state.passed[s.id]=true;});
     state.current=indexById(allPassed()?"kit":firstUnpassedGate());
