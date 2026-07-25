@@ -7,6 +7,9 @@
 <meta name="description" content="Forge a startup idea into a Sell-Kit, then quench it in a three-voice council — the Bull, the Short Seller, and the Closer — before you build. Free, in your browser, on your own API key.">
 <meta name="theme-color" content="#08090C">
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://app.ideaforgepro.com/">
 <meta property="og:site_name" content="Idea Forge Pro">
@@ -21,10 +24,34 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-DdLSbOjQ.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CDrg-w41.css">
+  <script type="module" crossorigin src="/assets/index-D_aOMUhE.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BnL_k4vM.css">
 </head>
 <body>
+<!-- Heat-haze filter: fractal noise displaces whatever it's applied to, and the animated
+     baseFrequency makes the distortion shimmer like hot air rising. Used on the molten footer seam. -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <filter id="heat" x="-20%" y="-30%" width="140%" height="160%" color-interpolation-filters="sRGB">
+    <!-- Broad, soft, low-frequency noise → a mirage, not tight bands. Two motions layered:
+         a slow spline breath on baseFrequency (shimmer) and a gentle vertical drift on the noise
+         (feOffset) so the distortion rises off the seam like hot air instead of pulsing in place. -->
+    <feTurbulence type="fractalNoise" baseFrequency="0.009 0.013" numOctaves="2" seed="4" result="n0">
+      <animate attributeName="baseFrequency" dur="18s" repeatCount="indefinite"
+               calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"
+               values="0.009 0.012;0.010 0.015;0.009 0.012"/>
+    </feTurbulence>
+    <feOffset in="n0" result="n" dy="0">
+      <animate attributeName="dy" dur="7s" repeatCount="indefinite"
+               calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"
+               values="7;-7;7"/>
+    </feOffset>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
 <div id="app"></div>
+<footer class="forge-foot">
+  <div class="forge-foot-seam" aria-hidden="true"></div>
+  <p class="forge-foot-line">Idea Forge Pro — forge it before you build it. A free tool from <a href="https://deliberon.com" target="_blank" rel="noopener">Deliberon</a>.</p>
+</footer>
 </body>
 </html>
