@@ -407,15 +407,13 @@ REWORK it into a materially STRONGER idea. Keep the seed of what is genuinely pr
   <h1>Two ways in.</h1>
   <div class="doors">
     <button class="door" id="doorRefine">
-      <img src="/icon-anvil.webp" alt="" class="door-ic anvil">
-      <h2>Bring your idea</h2>
+      <div class="door-top"><h2>Bring your idea</h2><img src="/icon-anvil.webp" alt="" class="door-ic anvil"></div>
       <p>Refine what you've got — your buyer, your offer. The forge stress-tests it and tells you where it breaks.</p>
-      <span class="door-cta">Forge my idea →</span>
+      <span class="door-cta">Bring it in →</span>
     </button>
     <button class="door" id="doorInvent">
-      <img src="/icon-bulb.webp" alt="" class="door-ic bulb">
-      <h2>No idea yet?</h2>
-      <p>Don't have one — that's fine. The forge invents a starting point and stress-tests it for you.</p>
+      <div class="door-top"><h2>No idea yet?</h2><img src="/icon-bulb.webp" alt="" class="door-ic bulb"></div>
+      <p>Don't have one — that's fine. The Prospector digs one up and the forge stress-tests it for you.</p>
       <span class="door-cta">Spark an idea →</span>
     </button>
   </div>`;function UP(){return`
@@ -538,9 +536,9 @@ REWORK it into a materially STRONGER idea. Keep the seed of what is genuinely pr
     </section>
     <div class="anvil-nav">
       <button id="anvilPrev" class="ghost"${l?" disabled":""}>${l?"← Gate":"← Gate "+(n.num-1)}</button>
-      ${d?'<button id="anvilCast" class="primary big">🜂 Cast it to the council</button>':`<button id="anvilNext" class="primary big">Gate ${n.num+1} →</button>`}
+      ${d?'<button id="anvilCast" class="primary big">💧 Quench it</button>':`<button id="anvilNext" class="primary big">Gate ${n.num+1} →</button>`}
     </div>
-    ${d?`<p class="fine anvil-castnote">All seven gates worked — cast for the council's verdict, or click any gate above to keep hammering.</p>`:""}`}function r2(){G("#anvilExit").addEventListener("click",t2),W.querySelector("#anvilPrev")?.addEventListener("click",()=>Yo(m.anvilGate-1)),W.querySelector("#anvilNext")?.addEventListener("click",()=>Yo(m.anvilGate+1)),W.querySelector("#anvilCast")?.addEventListener("click",()=>{m.view="work",ks()}),W.querySelectorAll(".anvil-pip[data-gate]").forEach(e=>e.addEventListener("click",()=>Yo(Number(e.dataset.gate)))),W.querySelectorAll(".anvil-fields textarea[data-key]").forEach(e=>{Hn(e),e.addEventListener("input",()=>{m.kit[e.dataset.key]=e.value,Hn(e),Ge()})})}function o2(e){const{red:t,amber:n}=cm(),r=a=>{const s=e[a]??"",i=t.has(a)?" glow-red":n.has(a)?" glow-amber":"",c=t.has(a)?'<span class="kf-flag">needs a rework ✗</span>':n.has(a)?'<span class="kf-flag amber">fix this ✎</span>':"";return`<label class="kf${i}" id="kf-${a}" data-field="${a}"><span>${V(fa.get(a)??a)}${c}</span>
+    ${d?'<p class="fine anvil-castnote">Quench the finished blade — it goes to the council for the final review. Or click any gate above to keep hammering.</p>':""}`}function r2(){G("#anvilExit").addEventListener("click",t2),W.querySelector("#anvilPrev")?.addEventListener("click",()=>Yo(m.anvilGate-1)),W.querySelector("#anvilNext")?.addEventListener("click",()=>Yo(m.anvilGate+1)),W.querySelector("#anvilCast")?.addEventListener("click",()=>{m.view="work",ks()}),W.querySelectorAll(".anvil-pip[data-gate]").forEach(e=>e.addEventListener("click",()=>Yo(Number(e.dataset.gate)))),W.querySelectorAll(".anvil-fields textarea[data-key]").forEach(e=>{Hn(e),e.addEventListener("input",()=>{m.kit[e.dataset.key]=e.value,Hn(e),Ge()})})}function o2(e){const{red:t,amber:n}=cm(),r=a=>{const s=e[a]??"",i=t.has(a)?" glow-red":n.has(a)?" glow-amber":"",c=t.has(a)?'<span class="kf-flag">needs a rework ✗</span>':n.has(a)?'<span class="kf-flag amber">fix this ✎</span>':"";return`<label class="kf${i}" id="kf-${a}" data-field="${a}"><span>${V(fa.get(a)??a)}${c}</span>
       <textarea data-key="${a}" rows="2">${V(s)}</textarea></label>`},o=ZP.map(a=>`<div class="kgroup"><h3>${V(a.title)}</h3>${a.keys.map(r).join("")}</div>`).join("");return`
     <section class="sellkit">
       <h2 class="sec">Your Sell-Kit — ${V(e.name||"untitled")}</h2>
