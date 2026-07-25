@@ -407,14 +407,20 @@ REWORK it into a materially STRONGER idea. Keep the seed of what is genuinely pr
   <h1>Two ways in.</h1>
   <div class="doors">
     <button class="door" id="doorRefine">
-      <div class="door-top"><h2>Bring your idea</h2><img src="/icon-anvil.webp" alt="" class="door-ic anvil"></div>
-      <p>Refine what you've got — your buyer, your offer. The forge stress-tests it and tells you where it breaks.</p>
-      <span class="door-cta">Bring it in →</span>
+      <div class="door-body">
+        <h2>Bring your idea</h2>
+        <p>Refine what you've got — your buyer, your offer. The forge stress-tests it and tells you where it breaks.</p>
+        <span class="door-cta">Bring it to the Smith →</span>
+      </div>
+      <img src="/icon-anvil.webp" alt="" class="door-ic anvil">
     </button>
     <button class="door" id="doorInvent">
-      <div class="door-top"><h2>No idea yet?</h2><img src="/icon-bulb.webp" alt="" class="door-ic bulb"></div>
-      <p>Don't have one — that's fine. The Prospector digs one up and the forge stress-tests it for you.</p>
-      <span class="door-cta">Spark an idea →</span>
+      <div class="door-body">
+        <h2>No idea yet?</h2>
+        <p>Don't have one — that's fine. The Prospector digs one up and the forge stress-tests it for you.</p>
+        <span class="door-cta">Spark an idea →</span>
+      </div>
+      <img src="/icon-bulb.webp" alt="" class="door-ic bulb">
     </button>
   </div>`;function UP(){return`
     <h1 class="work-h1">Bring your idea</h1>
