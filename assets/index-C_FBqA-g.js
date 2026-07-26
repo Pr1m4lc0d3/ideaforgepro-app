@@ -604,7 +604,10 @@ ${r(s.id)}`).join(`
 
 `);h.gateChecking=t.id,le();try{h.gateScores[t.id]=await $P(t.num,t.label,ga[t.id]??"",JP[t.id]??[],o,a,$t())}catch(s){console.warn("Gate check failed:",s)}h.gateChecking=null,Re(),le()}function f2(e){const t=h.smithChats[e.id]??[],n=h.smithBusy?" disabled":"",r=t.map(a=>`<div class="smith-msg ${a.role}">${M(a.content)}</div>`).join("")+(h.smithBusy?`<div class="smith-msg smith-typing">${So(26)}<span>The Smith is striking an angle…</span></div>`:"");return`
     <section class="smith">
-      <div class="smith-head"><span class="smith-mark">⚒</span> The Smith <span class="fine">— your idea partner on this gate</span></div>
+      <div class="smith-head">
+        <div class="rpg-portrait smith-portrait"><img src="/persona-smith.webp" alt="The Smith" width="44" height="44"></div>
+        <div class="smith-head-text"><span class="smith-name">The Smith</span><span class="fine">your idea partner on this gate</span></div>
+      </div>
       <div class="smith-log" id="smithLog">${t.length===0&&!h.smithBusy?`<p class="smith-empty">Stuck on the ${M(e.label.toLowerCase())}? Ask the Smith — he'll strike some angles. He brainstorms with you; he never judges (that's the council, at the quench).</p>`:""}${r}</div>
       <div class="smith-input">
         <textarea id="smithInput" rows="1" placeholder="Talk to the Smith about the ${M(e.label.toLowerCase())}…"${n}></textarea>
