@@ -435,7 +435,7 @@ REWORK it into a materially STRONGER idea. Keep the seed of what is genuinely pr
     ${KP(e)}
     <main>${h.view==="home"?XP():h.view==="anvil"?v2():c2()}</main>
     <div id="printout"></div>
-  `,k2(),h.view==="home"?S2():h.view==="anvil"?y2():E2(),document.body.classList.toggle("forged",!!h.kit),h.busy&&window.scrollTo({top:0,behavior:"smooth"}),xe()}function KP(e){const t=Ar.find(o=>!!o.baseUrl&&o.baseUrl===e.baseUrl)??Ar[0],n=t.id==="custom",r=Ar.map(o=>`<option value="${o.id}"${o.id===t.id?" selected":""}>${M(o.label)}</option>`).join("");return`
+  `,k2(),h.view==="home"?S2():h.view==="anvil"?y2():E2(),document.body.classList.toggle("forged",!!h.kit||h.busy),h.busy&&window.scrollTo({top:0,behavior:"smooth"}),xe()}function KP(e){const t=Ar.find(o=>!!o.baseUrl&&o.baseUrl===e.baseUrl)??Ar[0],n=t.id==="custom",r=Ar.map(o=>`<option value="${o.id}"${o.id===t.id?" selected":""}>${M(o.label)}</option>`).join("");return`
   <section id="settings" class="settings"${ha(e)?" hidden":""}>
     <h3 class="settings-h">Connect your AI — it runs on your own key</h3>
     <label>1 · Pick a provider
