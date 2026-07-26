@@ -497,8 +497,13 @@ REWORK it into a materially STRONGER idea. Keep the seed of what is genuinely pr
         <span class="idea-head-label">Your idea</span>
       </div>
       <textarea id="idea" placeholder="${N(e)}">${N(h.seededIdea)}</textarea>
-    </div>`}function f2(){return`
-    <h1 class="work-h1">Bring your idea</h1>
+    </div>`}function f2(){const t=!!h.kit?"Your steel's back on the anvil — I've sharpened the Sell-Kit below. Cast it to the council, or bring it to the anvil to hammer a gate.":"Lay your idea down and I'll help you forge it — the buyer, the problem, the offer. One idea, taken deep.";return`
+    <h1 class="work-h1 centered">Bring your idea</h1>
+    <div class="spark-by rpg">
+      <div class="rpg-portrait"><img src="/persona-smith.webp" alt="The Smith" width="150" height="150"></div>
+      <span class="rpg-plate">The Smith</span>
+      <p class="spark-by-line">${N(t)}</p>
+    </div>
     ${Im("Describe your idea — the buyer, the problem, the offer. One idea, taken deep. Or drop your notes below and the forge reads them.")}
     <div class="upload-row">
       <label class="upload-btn">📎 Add files
