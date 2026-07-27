@@ -602,14 +602,18 @@ REWORK it into a materially STRONGER idea. Keep the seed of what is genuinely pr
     </div>`}function bN(){const e=p.busy?" disabled":"";return`
     <div class="quench-bar">
       <p class="quench-lead">Your plan is forged. Two ways to test it:</p>
+      <!-- Anvil left, council right. The anvil is the smaller, reversible step; casting spends model
+           calls and produces the verdict you are judged on. Reading order should run from the lesser
+           commitment to the greater, and the primary action belongs on the right where the eye
+           finishes — the two were the wrong way round. -->
       <div class="fork">
-        <div class="fork-opt">
-          <button id="quenchBtn" class="primary big"${e}>🜂 Cast it to the council</button>
-          <p class="fine">The quick pour — the Bull, the Short Seller, and the Closer read your Sell-Kit as a whole, and you get your score.</p>
-        </div>
         <div class="fork-opt">
           <button class="ghost big js-anvil"${e}>⚒ Bring it to the anvil</button>
           <p class="fine">Hand-forge it — work the seven gates one at a time, hammering each until it holds.</p>
+        </div>
+        <div class="fork-opt">
+          <button id="quenchBtn" class="primary big"${e}>🜂 Cast it to the council</button>
+          <p class="fine">The quick pour — the Bull, the Short Seller, and the Closer read your Sell-Kit as a whole, and you get your score.</p>
         </div>
       </div>
     </div>`}function wN(){if(p.busy)return p.busyAt==="quench"?tN():`<div class="work-busy">${eN()}</div>`;const e=p.assay&&!Ir()?Za(p.assay,p.gateMode):!1;return p.results?`
