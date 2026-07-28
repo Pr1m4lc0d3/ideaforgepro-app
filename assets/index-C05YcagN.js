@@ -473,7 +473,13 @@ The founder is on the bench with the "${e}" gate. What this gate must produce: $
 The Sell-Kit so far:
 ${n}
 
-Stay on the ${e} gate. Help them forge it — one strike at a time.${f?.length?`
+Stay on the ${e} gate for OUTPUT — propose only ${e} content, and do not go and rewrite the others.
+
+BUT THE WHOLE KIT ABOVE IS BINDING, NOT BACKGROUND. Every other gate is already decided, and the council judges the kit as ONE document: a ${e} that contradicts another gate is scored as incoherence no matter how good it is on its own. Before you offer an angle, read it against every other gate — earlier AND later — and check the concrete things that silently disagree: who the buyer is, the price, the numbers, the timeframes and dates, what the test actually asks for, and what the builder spec puts out of scope. If the strongest ${e} you can forge would break another gate, do NOT quietly write it and do NOT water it down. Instead give the founder the WHOLE move, in three parts: (1) name the gate it collides with and quote what that gate currently says; (2) state what that gate would have to BECOME for the kit to hold together — concretely, in the words you would put there, not "you may need to revisit the test"; (3) let them choose — take this angle and carry the knock-on edit through, or keep that gate as it stands and forge a weaker ${e}. A change that improves one gate and silently breaks another is not an improvement, it is a bill that arrives at the quench. Carrying the consequence with the proposal is the difference between a partner and a text generator.
+
+You may only TAG text for this gate's own field keys, so a knock-on edit to another gate is prose: tell them exactly what to change it to and which gate to open. Never tag another gate's key — it will be discarded.
+
+Help them forge it — one strike at a time.${f?.length?`
 
 THE FIELD KEYS FOR THIS GATE — the only keys you may tag with:
 ${f.map(S=>`  [[${S.key}]] = ${S.label}`).join(`
