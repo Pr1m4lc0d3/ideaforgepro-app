@@ -919,10 +919,11 @@ ${r}`:""),a=x.querySelector("#smithInput");a&&(a.value=o);const s=d.gateChecked[
       <div class="handoff-body">
         <p class="handoff-eyebrow">${e?"This steel is ready for":"You just met three experts from"}</p>
         <div class="handoff-brand">DELIBERON</div>
-        <p class="handoff-lead">The Bull, the Short Seller, and the Closer are three voices. <b>Deliberon</b> convenes a full council on your idea — more minds, their real research libraries, structured debate and votes, and a chairman who weighs it all into a verdict.${vd?"":" (Desktop app — Windows today, web version coming.)"}</p>
+        <p class="handoff-lead">The Bull, the Short Seller and the Closer were three voices on one idea. <b>Deliberon</b> is the whole room — a standing council you convene on any decision, as many times as you need, with no retainer, no equity, and nobody at the table who has a stake in your answer. Big companies call it a board. You have never been able to afford one.${vd?"":" (Desktop app — Windows today, web version coming.)"}</p>
         ${e?`<p class="handoff-order">Your <b>work order</b> is ready — the executive summary, all seven gates with their scores, what the council settled, and what is still unproven. It asks for Deliberon's built-in <b>${it.team}</b> team and the <b>${it.dutyName}</b> duty, both of which ship with the app. Nothing to install, no agents to build: hand it to the Chairman and the council goes to work on your business plan, then your pitch deck.</p>`:""}
+        <p class="handoff-free"><b>Free for 30 days — the full council.</b> No email, no name, no account, no tracking. Deliberon collects nothing; the only thing ever asked for is a name and address to deliver a licence, and only if you decide to buy one.</p>
         <div class="handoff-cta">
-          <a class="btn-primary" href="https://deliberon.com" target="_blank" rel="noopener">${vd?"Take it to your council":"See what Deliberon does"} &rarr;</a>
+          <a class="btn-primary" href="https://deliberon.com/for-founders" target="_blank" rel="noopener">${vd?"Try the full council free":"See what Deliberon does"} &rarr;</a>
           <button id="handoffDl" class="ghost small">${e?"Download the work order":"Download your Sell-Kit"}</button>
         </div>
       </div>
