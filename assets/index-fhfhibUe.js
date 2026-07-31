@@ -876,7 +876,7 @@ ${r(a.id)}`).join(`
       <textarea data-key="${f}" rows="2">${T(e[f]??"")}</textarea></label>`).join(""),c=u.assay?[...zt(u.assay),...Nt(u.assay)].map(Tn).filter(f=>f.field&&s.includes(f.field)):[],l=c.length?`<div class="anvil-blockers"><div class="anvil-blockers-h">⚒ The council flagged, on this gate</div><ul>${c.map(f=>`<li>${T(f.text)}</li>`).join("")}</ul>
        <button id="handToSmith" class="ghost small anvil-hand"${u.smithBusy?" disabled":""}>⚒ Hand this to the Smith</button></div>`:'<p class="anvil-noflag fine">No council notes on this gate yet — shape it, then cast to hear their read.</p>',d=t===0,p=t===V.length-1,h=u.results?"← Back to the Map":"← Back to the Sell-Kit";return`
     <div class="anvil-topbar">
-      <button id="anvilExit" class="ghost small">${h}</button>
+      <button id="anvilExit" class="ghost small">${h}</button><button id="backBtn" class="ghost small">← The Forge</button>
       <button id="anvilSave" class="ghost small" title="Save your whole forge to a file you can reload in any window">💾 Save forge</button>
     </div>
     <h1 class="work-h1 centered">The Anvil</h1>
@@ -986,7 +986,7 @@ ${r(a.id)}`).join(`
     ${gZ(e)}
     <button id="saveBtn" class="primary">Save & use</button>
     <p class="fine">Your key stays in this browser and goes straight to your provider — never to our servers.</p>
-  </section>`}function vZ(){const e=ne("#preset");e.addEventListener("change",()=>{const t=jv(e.value);if(!t)return;const n=t.id==="custom";ne("#baseUrlRow").hidden=!n,n||(ne("#baseUrl").value=t.baseUrl);const r=ne("#model"),o=R.querySelector("#modelCustom");r.innerHTML=Ni([],t.model),o&&(o.value=""),As(r,o);const s=R.querySelector(".getkey"),a=R.querySelector("#getKeyLink");s&&(s.hidden=!t.keyUrl),a&&t.keyUrl&&(a.href=t.keyUrl),ne("#modelStatus").textContent=""}),R.querySelector("#homeBtn")?.addEventListener("click",()=>{u.view="home",u.status="",u.error="",X(),K(),window.scrollTo(0,0)}),ne("#settingsBtn").addEventListener("click",()=>{const t=ne("#settings");t.hidden=!t.hidden,t.hidden||tp()}),ne("#loadModels").addEventListener("click",My),ne("#model").addEventListener("change",()=>As(ne("#model"),R.querySelector("#modelCustom"),!0)),ne("#apiKey").addEventListener("blur",tp),R.querySelector("#voiceProvider")?.addEventListener("change",t=>{const n=yo.find(o=>o.baseUrl===t.target.value),r=R.querySelector("#voiceKeyLink");n&&r&&(r.href=n.keyUrl,r.textContent=`Open ${n.short} and create a free key →`)}),ne("#saveBtn").addEventListener("click",()=>{dD({baseUrl:ne("#baseUrl").value.trim(),apiKey:ne("#apiKey").value.trim(),model:fZ(ne("#model"),R.querySelector("#modelCustom"))});const t=R.querySelector("#voiceProvider"),n=R.querySelector("#voiceKey");t&&n&&pD({baseUrl:t.value.trim(),apiKey:n.value.trim()}),K()})}async function My(){const e=ne("#baseUrl").value.trim(),t=ne("#apiKey").value.trim(),n=ne("#modelStatus"),r=ne("#model"),o=R.querySelector("#modelCustom");if(!e){n.textContent="Pick a provider first.";return}n.textContent="Loading models…";try{const s=await XO({baseUrl:e,apiKey:t});mZ(r,o,s),n.textContent=s.length?`${s.length} models loaded — open the list and choose one.`:"No models returned; choose “type a model name myself”."}catch(s){n.textContent="Couldn't load models ("+(s instanceof Error?s.message:String(s))+"). Choose “type a model name myself” and enter one."}}function tp(){const e=R.querySelector("#model"),t=R.querySelector("#apiKey"),n=R.querySelector("#baseUrl");!e||!t||!n||!t.value.trim()||!n.value.trim()||hZ(e)||My()}async function Pi(){u.library=await oA();const e=R.querySelector("#libraryList");e&&(e.innerHTML=Dy())}function Dy(){return u.library.length?u.library.map(e=>`<li class="lib-row${e.id===u.forgeId?" current":""}">
+  </section>`}function vZ(){const e=ne("#preset");e.addEventListener("change",()=>{const t=jv(e.value);if(!t)return;const n=t.id==="custom";ne("#baseUrlRow").hidden=!n,n||(ne("#baseUrl").value=t.baseUrl);const r=ne("#model"),o=R.querySelector("#modelCustom");r.innerHTML=Ni([],t.model),o&&(o.value=""),As(r,o);const s=R.querySelector(".getkey"),a=R.querySelector("#getKeyLink");s&&(s.hidden=!t.keyUrl),a&&t.keyUrl&&(a.href=t.keyUrl),ne("#modelStatus").textContent=""}),ne("#settingsBtn").addEventListener("click",()=>{const t=ne("#settings");t.hidden=!t.hidden,t.hidden||tp()}),ne("#loadModels").addEventListener("click",My),ne("#model").addEventListener("change",()=>As(ne("#model"),R.querySelector("#modelCustom"),!0)),ne("#apiKey").addEventListener("blur",tp),R.querySelector("#voiceProvider")?.addEventListener("change",t=>{const n=yo.find(o=>o.baseUrl===t.target.value),r=R.querySelector("#voiceKeyLink");n&&r&&(r.href=n.keyUrl,r.textContent=`Open ${n.short} and create a free key →`)}),ne("#saveBtn").addEventListener("click",()=>{dD({baseUrl:ne("#baseUrl").value.trim(),apiKey:ne("#apiKey").value.trim(),model:fZ(ne("#model"),R.querySelector("#modelCustom"))});const t=R.querySelector("#voiceProvider"),n=R.querySelector("#voiceKey");t&&n&&pD({baseUrl:t.value.trim(),apiKey:n.value.trim()}),K()})}async function My(){const e=ne("#baseUrl").value.trim(),t=ne("#apiKey").value.trim(),n=ne("#modelStatus"),r=ne("#model"),o=R.querySelector("#modelCustom");if(!e){n.textContent="Pick a provider first.";return}n.textContent="Loading models…";try{const s=await XO({baseUrl:e,apiKey:t});mZ(r,o,s),n.textContent=s.length?`${s.length} models loaded — open the list and choose one.`:"No models returned; choose “type a model name myself”."}catch(s){n.textContent="Couldn't load models ("+(s instanceof Error?s.message:String(s))+"). Choose “type a model name myself” and enter one."}}function tp(){const e=R.querySelector("#model"),t=R.querySelector("#apiKey"),n=R.querySelector("#baseUrl");!e||!t||!n||!t.value.trim()||!n.value.trim()||hZ(e)||My()}async function Pi(){u.library=await oA();const e=R.querySelector("#libraryList");e&&(e.innerHTML=Dy())}function Dy(){return u.library.length?u.library.map(e=>`<li class="lib-row${e.id===u.forgeId?" current":""}">
         <button class="lib-open" data-id="${T(e.id)}" title="Open this idea in the forge">
           <span class="lib-name">${T(e.name)}</span>
           <span class="lib-meta">${e.score!=null?`${e.score}/100 · `:""}${T(Ym(e.savedAt))}${e.id===u.forgeId?" · open now":""}</span>
@@ -1055,7 +1055,8 @@ ${r(a.id)}`).join(`
       </div>
     </div>`}function RZ(){return`<div class="working"><p class="working-status">${T(u.status)}</p>${In(140)}<p class="working-elapsed" aria-live="polite">0:00</p></div>`}const CZ=()=>`
   <p class="eyebrow">Sell before you build</p>
-  <h1>Two ways in.</h1>
+  <h1>The Forge</h1>
+  <p class="forge-sub">Two ways in — bring an idea to the Smith, or let the Prospector dig one up.</p>
   <div class="doors">
     <button class="door" id="doorRefine">
       <div class="door-body">
@@ -1106,12 +1107,12 @@ ${r(a.id)}`).join(`
         </div>
       </div>
     </div>`}function zZ(){if(u.busy)return u.busyAt==="quench"?ij():`<div class="work-busy">${RZ()}</div>`;const e=u.assay&&!Yt()?wa(u.assay,u.gateMode):!1;return u.results?`
-      <button id="backBtn" class="ghost small">← Both doors</button>
+      <button id="backBtn" class="ghost small">← The Forge</button>
       <h1 class="work-h1 centered">The Map</h1>
       <p class="anvil-sub">Where your Sell-Kit stands — tap any gate to work it.</p>
       ${Xa()}
       ${lj(e)}`:`
-    <button id="backBtn" class="ghost small">← Both doors</button>
+    <button id="backBtn" class="ghost small">← The Forge</button>
     ${(u.entry==="spark"?AZ:OZ)({action:rp(),gates:Xa()})}
     ${Gn()?"":Xa()+rp()}
     ${u.status?`<div class="status"><span>${T(u.status)}</span></div>`:""}
@@ -1136,7 +1137,7 @@ ${r(a.id)}`).join(`
     </div>
   </div>`:""}function He(){u.view==="anvil"&&!u.kit&&(u.view="home");const e=Be();R.innerHTML=`
     <header class="top">
-      <button id="homeBtn" class="brand" type="button" title="Back to the beginning — your work stays on the shelf"${u.busy?" disabled":""}>Idea Forge Pro</button>
+      <a class="brand" href="https://ideaforgepro.com" title="Idea Forge Pro — back to the website. Your work is saved and waiting when you return."><img src="/icon-anvil.webp" alt="" width="26" height="26" class="brand-mark">Idea Forge Pro</a>
       <button id="settingsBtn" class="ghost">⚙ ${ba(e)?"Provider settings":"Connect your AI"}</button>
     </header>
     ${yZ(e)}
