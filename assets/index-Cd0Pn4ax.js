@@ -994,7 +994,7 @@ ${r(s.id)}`).join(`
       <div class="rpg-portrait"><img src="/persona-prospector.webp${Yn}" alt="The Prospector" width="150" height="150"></div>
       <span class="rpg-plate">The Prospector</span>
       <p class="spark-by-line">${A(t)}</p>
-      <button id="sparkBtn" class="primary spark-btn"${n}>${r}</button>
+      <div class="spark-act"><button id="sparkBtn" class="primary spark-btn"${n}>${r}</button></div>
     </div>
     ${QZ()}
     ${Ey("The Prospector's idea lands here — or write your own over it.")}`}function QZ(){const e=d.busy?" disabled":"",n=_a(Ye().baseUrl)?`<label class="focus-toggle"><input type="checkbox" id="webSearch"${d.webSearch?" checked":""}><span>🔎 Search the live web while sparking <span class="fine">— runs on your key</span></span></label>`:`<p class="focus-cap">This provider can't search the web. <b>Copy a research prompt</b> and run it in a search tool (Perplexity, or ChatGPT/Claude with web), then paste what you learn into the idea.</p>`;return`
