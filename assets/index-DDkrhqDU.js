@@ -1070,7 +1070,7 @@ ${r(a.id)}`).join(`
     <button class="door" id="doorRefine">
       <div class="door-body">
         <h2>Bring your idea</h2>
-        <p>Refine what you've got — your buyer, your offer. The forge stress-tests it and tells you where it breaks.</p>
+        <p>Refine what you've got. The forge stress-tests it and names where it breaks.</p>
         <span class="door-cta">Bring it to the Smith →</span>
       </div>
       <img src="/icon-anvil.webp" alt="" class="door-ic anvil">
@@ -1078,7 +1078,7 @@ ${r(a.id)}`).join(`
     <button class="door" id="doorInvent">
       <div class="door-body">
         <h2>No idea yet?</h2>
-        <p>Don't have one — that's fine. The Prospector digs one up and the forge stress-tests it for you.</p>
+        <p>No idea in hand. The Prospector digs one up, then the forge tests it.</p>
         <span class="door-cta">Spark an idea →</span>
       </div>
       <img src="/icon-bulb.webp" alt="" class="door-ic bulb">
