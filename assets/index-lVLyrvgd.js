@@ -1054,6 +1054,7 @@ ${r(a.id)}`).join(`
         <button id="copyResearch" class="ghost"${e}>📋 Copy a research prompt</button>
       </div>
     </div>`}function RZ(){return`<div class="working"><p class="working-status">${T(u.status)}</p>${In(140)}<p class="working-elapsed" aria-live="polite">0:00</p></div>`}const CZ=()=>`
+  <div class="forge-hub">
   <p class="eyebrow">Sell before you build</p>
   <h1>The Forge</h1>
   <p class="forge-sub">Two ways in — bring an idea to the Smith, or let the Prospector dig one up.</p>
@@ -1075,7 +1076,8 @@ ${r(a.id)}`).join(`
       <img src="/icon-bulb.webp" alt="" class="door-ic bulb">
     </button>
   </div>
-  ${bZ()}`;function rp(){return`<div class="forge-actions"><button id="forgeBtn" class="primary big"${u.busy?" disabled":""}>⛏ ${u.kit?"Extract it again":"Extract the Sell-Kit"}</button></div>`}function Xa(){const e=u.assay,t=Bo.map(r=>{let o=r.id===u.gateMode?" on":"",s="";if(e&&!Yt()){const a=wa(e,r.id);o+=a?" pass":" fail",s=`<span class="gate-badge">${a?"✓":"✗"}</span>`}return`<button class="gate-btn${o}" data-mode="${r.id}" aria-pressed="${r.id===u.gateMode}">
+  ${bZ()}
+  </div>`;function rp(){return`<div class="forge-actions"><button id="forgeBtn" class="primary big"${u.busy?" disabled":""}>⛏ ${u.kit?"Extract it again":"Extract the Sell-Kit"}</button></div>`}function Xa(){const e=u.assay,t=Bo.map(r=>{let o=r.id===u.gateMode?" on":"",s="";if(e&&!Yt()){const a=wa(e,r.id);o+=a?" pass":" fail",s=`<span class="gate-badge">${a?"✓":"✗"}</span>`}return`<button class="gate-btn${o}" data-mode="${r.id}" aria-pressed="${r.id===u.gateMode}">
       <span class="gate-btn-label">${T(r.label)}${s}</span>
       <span class="gate-btn-short">${T(r.short)}</span>
     </button>`}).join(""),n=Bo.find(r=>r.id===u.gateMode).note;return`
@@ -1137,7 +1139,7 @@ ${r(a.id)}`).join(`
     </div>
   </div>`:""}function He(){u.view==="anvil"&&!u.kit&&(u.view="home");const e=Be();R.innerHTML=`
     <header class="top">
-      <a class="brand" href="https://ideaforgepro.com" title="Idea Forge Pro — back to the website. Your work is saved and waiting when you return."><img src="/icon-anvil.webp" alt="" width="26" height="26" class="brand-mark">Idea Forge Pro</a>
+      <a class="brand" href="https://ideaforgepro.com" title="Idea Forge Pro — back to the website. Your work is saved and waiting when you return."><img src="/brand-anvil.webp" alt="" width="28" height="28" class="brand-mark">Idea Forge Pro</a>
       <button id="settingsBtn" class="ghost">⚙ ${ba(e)?"Provider settings":"Connect your AI"}</button>
     </header>
     ${yZ(e)}
