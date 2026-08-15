@@ -675,18 +675,19 @@ THE PRODUCT, AS ITS GATES DESCRIBE IT:
 
 ${n}`,{object:i}=await Pt(o,xj,24e4)({system:`${s}
 
-${a}`,prompt:"Return the mechanism as instructed."}),c=i;return{mechanism:String(c.mechanism??"").trim(),rivalCost:String(c.rivalCost??"").trim(),note:String(c.note??"").trim()}}const zj=[{deg:8,dist:22,delay:0,len:7},{deg:22,dist:28,delay:.1,len:9},{deg:36,dist:18,delay:.2,len:6},{deg:52,dist:24,delay:.3,len:8},{deg:66,dist:15,delay:.4,len:5},{deg:-6,dist:19,delay:.5,len:7}];function Pj(e=64){const t=zj.map(n=>`<line class="gr-spark" x1="0" y1="0" x2="${n.len}" y2="0" style="--a:${n.deg}deg;--d:${n.dist};--t:${n.delay}s" />`).join("");return`<span class="grinder" style="width:${e}px;height:${e}px" aria-hidden="true">
+${a}`,prompt:"Return the mechanism as instructed."}),c=i;return{mechanism:String(c.mechanism??"").trim(),rivalCost:String(c.rivalCost??"").trim(),note:String(c.note??"").trim()}}const zj=[{deg:184,dist:11,delay:0,len:6},{deg:194,dist:13,delay:.1,len:6},{deg:208,dist:15,delay:.2,len:7},{deg:222,dist:20,delay:.3,len:6},{deg:236,dist:22,delay:.4,len:7},{deg:250,dist:18,delay:.5,len:5}];function Pj(e=64){const t=zj.map(n=>`<line class="gr-spark" x1="0" y1="0" x2="${n.len}" y2="0" style="--a:${n.deg}deg;--d:${n.dist};--t:${n.delay}s" />`).join("");return`<span class="grinder" style="width:${e}px;height:${e}px" aria-hidden="true">
     <svg viewBox="0 0 64 64" width="${e}" height="${e}">
       <!-- A third of a wheel, centred below the frame: we are standing close to a big one.
-           Centre (32,68), r=34, so the crown sits at y=34. Everything below is measured off that. -->
+           Centre (32,68), r=34. Every number below is measured off that circle. -->
       <path class="gr-arc" d="M2 52 A 34 34 0 0 1 62 52" />
-      <!-- A knife lying on the wheel: point left, spine flat, edge horizontal at y=33. The edge sits
-           1 unit inside the rim's 3.5-wide stroke, so it bites rather than hovers. -->
+      <!-- Three points, tip to heel: a wedge. The long side is the cutting edge and it lies on the
+           tangent at 18°, dropped 0.8 toward the centre so it bites into the rim's 3.5-wide stroke
+           instead of hovering over it. -->
       <g class="gr-pass">
-        <path class="gr-blade" d="M8 33 L19 25.5 L52 25.5 L52 33 Z" />
+        <path class="gr-blade" d="M49.9 38.9 L13.7 27.2 L15.9 20.5 Z" />
       </g>
-      <!-- Fixed at the crown, outside gr-pass: a flat edge on a round rim always touches here. -->
-      <g class="gr-sparks" transform="translate(32 33)">${t}</g>
+      <!-- The tangent point, and outside gr-pass because it does not move when the blade does. -->
+      <g class="gr-sparks" transform="translate(42.3 36.4)">${t}</g>
     </svg>
   </span>`}const Zy=V.filter(e=>e.id!=="edge").map(e=>e.id);function zs(){return Zy.flatMap(e=>$e[e]??[])}function vt(){return u.kit??{}}function Uy(){try{const e=String(vt().edgeCandidates??"").trim();if(!e)return[];const t=JSON.parse(e);return Array.isArray(t)?t:[]}catch{return[]}}function Mj(){return!!String(vt().edgeCandidates??"").trim()}function Dj(){const e=vt();return String(e.edgeVerdict??"").trim()?"formulate":Mj()||String(e.edgeRejected??"").trim()?"candidates":"not-run"}function jj(){const e=vt();return zs().filter(n=>String(e[n]??"").trim()).length>=Math.ceil(zs().length*.6)}function Lj(){const e=u.edgeCitedAt??{},t=vt();return Object.keys(e).filter(n=>String(t[n]??"")!==e[n])}function Zi(){return Ct?`<p class="edge-warn">The derivation failed: ${k(Ct)}</p>`:""}const Zj={"none-found":"Nothing collides","already-resolved":"You already escaped this one","held-unsolved":"Held, no mechanism yet","held-solved":"Held, and here is the mechanism"};function Uj(){const e=jj();return`<div class="edge-panel edge-a">
     <p class="edge-lead">Contradictions do not sit inside a gate. They sit in the collisions
