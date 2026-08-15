@@ -673,17 +673,18 @@ THE PRODUCT, AS ITS GATES DESCRIBE IT:
 
 ${n}`,{object:i}=await Pt(o,Ej,24e4)({system:`${s}
 
-${a}`,prompt:"Return the mechanism as instructed."}),c=i;return{mechanism:String(c.mechanism??"").trim(),rivalCost:String(c.rivalCost??"").trim(),note:String(c.note??"").trim()}}const Ij=[{deg:8,dist:22,delay:0,len:7},{deg:22,dist:28,delay:.05,len:9},{deg:36,dist:18,delay:.02,len:6},{deg:52,dist:24,delay:.08,len:8},{deg:66,dist:15,delay:.04,len:5},{deg:-6,dist:19,delay:.07,len:7}];function Aj(e=64){const t=Ij.map(n=>`<line class="gr-spark" x1="0" y1="0" x2="${n.len}" y2="0" style="--a:${n.deg}deg;--d:${n.dist};--t:${n.delay}s" />`).join("");return`<span class="grinder" style="width:${e}px;height:${e}px" aria-hidden="true">
+${a}`,prompt:"Return the mechanism as instructed."}),c=i;return{mechanism:String(c.mechanism??"").trim(),rivalCost:String(c.rivalCost??"").trim(),note:String(c.note??"").trim()}}const Ij=[{deg:8,dist:22,delay:0,len:7},{deg:22,dist:28,delay:.1,len:9},{deg:36,dist:18,delay:.2,len:6},{deg:52,dist:24,delay:.3,len:8},{deg:66,dist:15,delay:.4,len:5},{deg:-6,dist:19,delay:.5,len:7}];function Aj(e=64){const t=Ij.map(n=>`<line class="gr-spark" x1="0" y1="0" x2="${n.len}" y2="0" style="--a:${n.deg}deg;--d:${n.dist};--t:${n.delay}s" />`).join("");return`<span class="grinder" style="width:${e}px;height:${e}px" aria-hidden="true">
     <svg viewBox="0 0 64 64" width="${e}" height="${e}">
-      <!-- A third of a wheel, centred below the frame: we are standing close to a big one. -->
+      <!-- A third of a wheel, centred below the frame: we are standing close to a big one.
+           Centre (32,68), r=34, so the crown sits at y=34. Everything below is measured off that. -->
       <path class="gr-arc" d="M2 52 A 34 34 0 0 1 62 52" />
-      <!-- A taper, not a bar. The tip lands ON the rim: the arc passes through y=33 at x=35, and a
-           tip floating above it reads as a blade being waved at a wheel rather than ground on one. -->
-      <g class="gr-arm">
-        <path class="gr-blade" d="M59 5 L63 11 L35 33 Z" />
+      <!-- A knife lying on the wheel: point left, spine flat, edge horizontal at y=33. The edge sits
+           1 unit inside the rim's 3.5-wide stroke, so it bites rather than hovers. -->
+      <g class="gr-pass">
+        <path class="gr-blade" d="M8 33 L19 25.5 L52 25.5 L52 33 Z" />
       </g>
-      <!-- Sparks leave from the contact point and spray with the rim, down and to the right. -->
-      <g class="gr-sparks" transform="translate(35 33)">${t}</g>
+      <!-- Fixed at the crown, outside gr-pass: a flat edge on a round rim always touches here. -->
+      <g class="gr-sparks" transform="translate(32 33)">${t}</g>
     </svg>
   </span>`}const Ly=V.filter(e=>e.id!=="edge").map(e=>e.id);function Ns(){return Ly.flatMap(e=>$e[e]??[])}function Tt(){return u.kit??{}}function Li(){try{const e=String(Tt().edgeCandidates??"").trim();if(!e)return[];const t=JSON.parse(e);return Array.isArray(t)?t:[]}catch{return[]}}function Oj(){const e=Tt();return String(e.edgeVerdict??"").trim()?"formulate":Li().length||String(e.edgeRejected??"").trim()?"candidates":"not-run"}function Rj(){const e=Tt();return Ns().filter(n=>String(e[n]??"").trim()).length>=Math.ceil(Ns().length*.6)}function Cj(){const e=u.edgeCitedAt??{},t=Tt();return Object.keys(e).filter(n=>String(t[n]??"")!==e[n])}function Zi(){return Ct?`<p class="edge-warn">The derivation failed: ${k(Ct)}</p>`:""}const xj={"none-found":"Nothing collides","already-resolved":"You already escaped this one","held-unsolved":"Held, no mechanism yet","held-solved":"Held, and here is the mechanism"};function Nj(){const e=Rj();return`<div class="edge-panel edge-a">
     <p class="edge-lead">Contradictions do not sit inside a gate. They sit in the collisions
